@@ -27,7 +27,7 @@
 		<h3>request 내장객체</h3>
 		
 		<h4>사용자</h4>
-		<form action="./proc/userProc.jsp" method="post">
+		<form action="./proc/userProc.jsp" method="get">
 			<input type="text" name="uid" placeholder="아이디 입력"><br/>
 			<input type="text" name="name" placeholder="이름 입력"><br/>
 			<input type="text" name="age" placeholder="나이 입력"><br/>
