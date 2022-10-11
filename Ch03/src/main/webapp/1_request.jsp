@@ -43,7 +43,7 @@
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<td><input type="text" name="pw" placeholder="비밀번호 입력"></td>
+					<td><input type="password" name="pw" placeholder="비밀번호 입력"></td>
 				</tr>
 				<tr>
 					<td>이름</td>
