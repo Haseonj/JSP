@@ -8,7 +8,6 @@
 	</head>
 	<body>
 		<%
-		// JSP 77P
 			out.println("오늘 날짜 : " + today);
 			out.println("<br/>");
 			out.println("내일 날짜 : " + tomorrow);
