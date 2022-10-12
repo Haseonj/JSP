@@ -29,7 +29,13 @@
 			<input type="checkbox" name="favo" value="pol" checked="checked">정치
 			<input type="checkbox" name="favo" value="ent">연예<br/>
 			자기소개 :
-			<textarea name="intro" rows="4" cols="30"></textarea>
+			<textarea name="intro" rows="4" cols="30"></textarea><br/>
+			<input type="submit" value="전송하기">
 		</form>
+		
+		<h2>3. HTTP 요청 헤더 정보 읽기</h2>
+		<a href="RequestHeader.jsp">
+			요청 헤더 정보 읽기
+		</a>
 	</body>
 </html>
