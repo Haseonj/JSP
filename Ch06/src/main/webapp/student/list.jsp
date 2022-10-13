@@ -50,14 +50,16 @@
 				<th>관리</th>
 			</tr>
 			<% for(StudentBean sb : students){ %>
-				<tr><%= sb.getStdNo() %></tr>
-				<tr><%= sb.getStdName() %></tr>
-				<tr><%= sb.getStdHp() %></tr>
-				<tr><%= sb.getStdYear() %></tr>
-				<tr><%= sb.getStdAddress() %></tr>
 				<tr>
-					<a href="./modify.jsp?stdNo=<%= sb.getStdNo() %>">수정</a>
-					<a href="./delete.jsp?stdNo=<%= sb.getStdNo() %>">삭제</a>
+					<td><%= sb.getStdNo() %></td>
+					<td><%= sb.getStdName() %></td>
+					<td><%= sb.getStdHp() %></td>
+					<td><%= sb.getStdYear() %></td>
+					<td><%= sb.getStdAddress() %></td>
+					<td>
+						<a href="./modify.jsp?stdNo=<%= sb.getStdNo() %>">수정</a>
+						<a href="./delete.jsp?stdNo=<%= sb.getStdNo() %>">삭제</a>
+					</td>
 				</tr>
 			<% } %>
 		</table>

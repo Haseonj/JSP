@@ -18,11 +18,13 @@
 		String user = "root";
 		String pass = "1234";
 		
+		
 		Connection conn = DriverManager.getConnection(host, user, pass);
 		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM `member` WHERE `uid`='"+ uid +"'");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM `member` WHERE `uid`='"+uid+"'");
 		
 		if(rs.next()){
+			
 			mb.setUid(rs.getString(1));
 			mb.setName(rs.getString(2));
 			mb.setHp(rs.getString(3));

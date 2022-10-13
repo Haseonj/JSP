@@ -12,8 +12,7 @@
 	String user = "root";
 	String pass = "1234";
 	
-	List<UserBean> users = null;
-	
+	List<UserBean> users = new ArrayList<>();
 	try{
 		// 1단계
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -24,7 +23,7 @@
 		// 4단계
 		ResultSet rs = stmt.executeQuery("SELECT * FROM `user3`");
 		// 5단계
-		users = new ArrayList<>(); 
+		//users = new ArrayList<>(); 
 		
 		while(rs.next()){
 			
