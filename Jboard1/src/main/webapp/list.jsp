@@ -2,7 +2,6 @@
 <%@ include file="./_header.jsp" %>
 <main id="board">
     <section class="list">
-        
         <table border="0">
             <caption>글목록</caption>
             <tbody>

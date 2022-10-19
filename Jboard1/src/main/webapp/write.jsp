@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="./_header.jsp" %>
 <main id="board">
-    
     <section class="write">
         <form action="#">
             <table border="0">
@@ -23,7 +22,6 @@
                     </td>
                 </tr>
             </table>
-
             <div>
                 <a href="/Jboard1/list.jsp" class="btn btnCancel">취소</a>
                 <input type="submit" value="작성완료" class="btn btnComplete">

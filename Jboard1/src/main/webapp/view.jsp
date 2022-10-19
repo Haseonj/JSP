@@ -1,9 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="./_header.jsp" %>
 <main id="board">
-    
     <section class="view">
-        
             <table border="0">
                 <caption>글보기</caption>
                 <tr>
@@ -23,7 +21,6 @@
                     </td>
                 </tr>
             </table>
-
             <div>
                 <a href="#" class="btn btnRemove">삭제</a>
                 <a href="/Jboard1/modify.jsp" class="btn btnModify">수정</a>
@@ -42,10 +39,7 @@
                         <a href="#" class="modify">수정</a>
                     </div>
                 </article>
-
                 <p class="empty">등록된 댓글이 없습니다.</p>
-
-
             </section>
             <!-- 댓글 쓰기 -->
             <section class="commentForm">
@@ -58,9 +52,7 @@
                         <input type="submit" value="작성완료" class="btn btnComplete">
                     </div>
                 </form>
-
             </section>
-        
     </section>
 </main>
 <%@ include file="./_footer.jsp"%>

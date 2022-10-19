@@ -22,7 +22,6 @@
                     <td><input type="password" name="pass2" placeholder="비밀번호 입력 확인"></td>
                 </tr>
             </table>
-
             <table border="1">
                 <caption>이용정보 입력</caption>
                 <tr>
@@ -58,7 +57,6 @@
                     </td>
                 </tr>
             </table>
-
             <div>
                 <a href="/Jboard1/user/login.jsp" class="btn btnCancel">취소</a>
                 <input type="submit" value="회원가입" class="btn btnRegister"/>
