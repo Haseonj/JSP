@@ -10,5 +10,6 @@
 		
 		<a href="./book/list.jsp">도서목록</a>
 		<a href="./customer/list.jsp">고객목록</a>
+		<a href="./order/list.jsp">주문목록</a>
 	</body>
 </html>
