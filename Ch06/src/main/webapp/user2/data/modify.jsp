@@ -1,32 +1,28 @@
 <%@page import="com.google.gson.JsonObject"%>
-<%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.google.gson.Gson"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
-<%@page import="bean.UserBean"%>
-<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
 <%@page import="config.DBCP"%>
 <%@page import="java.sql.Connection"%>
-<%@ page contentType="application/json;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	// 전송 데이터 수신
 	request.setCharacterEncoding("utf-8");
-	String uid = request.getParameter("uid");
 	String name = request.getParameter("name");
 	String hp = request.getParameter("hp");
 	String age = request.getParameter("age");
+	String uid = request.getParameter("uid");
 	
+	// 데이터베이스 작업
 	int result = 0;
-	
 	try{
 		Connection conn = DBCP.getConnection();
-		PreparedStatement psmt = conn.prepareStatement("INSERT INTO `user2` VALUES (?,?,?,?)");
-		psmt.setString(1, uid);
-		psmt.setString(2, name);
-		psmt.setString(3, hp);
-		psmt.setString(4, age);
-		
-		// 쿼리문 실행 성공 여부는 1 or 0
+		PreparedStatement psmt = conn.prepareStatement("UPDATE `user2` SET `name`=?, `hp`=?, `age`=? WHERE `uid`=?");
+		psmt.setString(1, name);
+		psmt.setString(2, hp);
+		psmt.setString(3, age);
+		psmt.setString(4, uid);
 		result = psmt.executeUpdate();
+		
 		
 		psmt.close();
 		conn.close();
@@ -35,7 +31,8 @@
 		e.printStackTrace();
 	}
 	
-	//String jsonData = "{\"result\":"+result+"}";
+	// JSON 변환
+		   
 	JsonObject json = new JsonObject();
 	json.addProperty("result", result);
 	

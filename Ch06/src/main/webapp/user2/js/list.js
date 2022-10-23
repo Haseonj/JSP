@@ -31,12 +31,14 @@
 					tr += "<td>"+user.hp+"</td>";
 					tr += "<td>"+user.age+"</td>";
 					tr += "<td>";
-					tr += "<a href='#'>수정</a>";
-					tr += "<a href='#'>삭제</a>";
+					tr += "<a href='#' id='userModify'>수정</a>";
+					tr += "<a href='#' id='userDelete'>삭제</a>";
 					tr += "</td>";
 					tr += "</tr>";
 					
 				$('table').append(tr);
+				
+				
 				
 			}
 			
