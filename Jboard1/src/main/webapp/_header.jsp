@@ -1,4 +1,15 @@
+<%@page import="kr.co.jboard1.bean.UserBean"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// loginProc 에서 session 값을 받아옴
+	UserBean ub = (UserBean)session.getAttribute("sessUser");
+	
+	// 로그인을 하지 않고 접근하는 경우
+	if(ub == null){
+		response.sendRedirect("/Jboard1/user/login.jsp?success=101");
+		return;
+	}
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +22,8 @@
         <header>
             <h3>Board System v1.0</h3>
             <p>
-                <span>홍길동</span>님 반갑습니다.
-                <a href="/Jboard1/user/login.jsp" class="logout">[로그아웃]</a>
+                <span><%= ub.getNick() %></span>님 반갑습니다.
+                <a href="/Jboard1/user/proc/logout.jsp">[로그아웃]</a>
             </p>
         </header>
       
