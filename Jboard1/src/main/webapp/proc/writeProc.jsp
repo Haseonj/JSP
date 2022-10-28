@@ -1,3 +1,5 @@
+<%@page import="kr.co.jboard1.bean.ArticleBean"%>
+<%@page import="kr.co.jboard1.dao.ArticleDAO"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.io.File"%>
 <%@page import="java.util.Date"%>
@@ -27,40 +29,16 @@
 	String regip 	= request.getRemoteAddr();
 	
 	// System.out.println("fname : " + fname);
+	ArticleBean article = new ArticleBean();
+	article.setTitle(title);
+	article.setContent(content);
+	article.setUid(uid);
+	article.setFname(fname);
+	article.setRegip(regip);
 	
-	int parent = 0;
+	ArticleDAO dao = ArticleDAO.getInstance();
+	int parent = dao.insertArticle(article);
 	
-	try{
-		Connection conn = DBCP.getConnection();
-		// 트랜잭션 시작
-		conn.setAutoCommit(false);
-		PreparedStatement psmt = conn.prepareStatement(Sql.INSERT_ARTICLE);
-		Statement stmt = conn.createStatement();
-		psmt.setString(1, title);
-		psmt.setString(2, content);
-		// 3항 연산자 fname이 null 이면? 0 아니면, 1
-		psmt.setInt(3, fname == null ? 0 : 1);
-		psmt.setString(4, uid);
-		psmt.setString(5, regip);
-		
-		psmt.executeUpdate();
-		ResultSet rs= stmt.executeQuery(Sql.SELECT_MAX_NO);
-		
-		conn.commit();
-		
-		if(rs.next()){
-			parent = rs.getInt(1);
-		}
-		
-		rs.close();
-		stmt.close();
-		psmt.close();
-		conn.close();
-		
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
 	
 	// 파일을 첨부했으면 (업로드가 끝나고 파일이 저장된 시점에서 해당 작업 시작)
 	if(fname != null){
@@ -79,21 +57,7 @@
 		f1.renameTo(f2);
 		
 		// 파일 테이블 Insert
-		try{
-			Connection conn = DBCP.getConnection();
-			PreparedStatement psmt = conn.prepareStatement(Sql.INSERT_FILE);
-			psmt.setInt(1, parent);
-			psmt.setString(2, newName);
-			psmt.setString(3, fname);
-			
-			psmt.executeUpdate();
-			
-			psmt.close();
-			conn.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		dao.insertFile(parent, newName, fname);
 	}
 	
 	response.sendRedirect("/Jboard1/list.jsp");
