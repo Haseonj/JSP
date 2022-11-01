@@ -35,13 +35,24 @@ public class Sql {
 											+ "`newName`=?,"
 											+ "`oriName`=?";
 	
+	public static final String INSERT_COMMENT = "INSERT INTO `board_article` SET "
+												+ "`parent`=?,"
+												+ "`content`=?,"
+												+ "`uid`=?,"
+												+ "`regip`=?,"
+												+ "`rdate`=NOW()";
+
+	
 	public static final String SELECT_MAX_NO = "SELECT MAX(`no`) FROM `board_article`";
 	
-	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article`";
+	// parent = 0 은 댓글을 카운트 하지 않고 목록에 출력하기 위해서
+	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` WHERE `parent`=0";
 	
+	// 목록에 댓글과 같이 출력되는것을 방지
 	public static final String SELECT_ARTICLES = "SELECT a.*, b.nick FROM `board_article` AS a "
 												+ "JOIN `board_user` AS b "
 												+ "ON a.uid = b.uid "
+												+ "WHERE `parent`=0 "
 												+ "ORDER BY `no` DESC "
 												+ "LIMIT ?, 10";
 	
@@ -55,7 +66,27 @@ public class Sql {
 												+ "WHERE `no`=?";
 	public static final String SELECT_FILE = "select * from `board_file` where `parent`=?";
 	
+	public static final String SELECT_COMMENTS = "SELECT a.*, b.`nick` FROM `board_article` AS a "
+												+ "JOIN `board_user` AS b "
+												+ "ON a.uid = b.uid "
+												+ " WHERE `parent`=? ORDER BY `no` ASC";
+	
+	public static final String SELECT_COMMENT_LATEST = "SELECT a.*, b.nick FROM `board_article` AS a "
+													+ "JOIN `board_user` AS b USING (`uid`) "
+													+ "WHERE `parent`!=0 ORDER BY `no` DESC LIMIT 1";
+	
+	public static final String SELECT_MODIFY = "SELECT * FROM `board_article` AS a "
+												+ "left JOIN `board_file` AS b ON a.no = b.parent "
+												+ "WHERE `no`=?";
+	
 	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit` = `hit` + 1 WHERE `no`=?";
 	
 	public static final String UPDATE_FILE_DOWNLOAD = "UPDATE `board_file` set `download` = `download` + 1 WHERE `fno`=?";
+	
+	public static final String UPDATE_COMMENT = "UPDATE `board_article` SET "
+												+ "`content`=?,"
+												+ "`rdate`=NOW() "
+												+ "WHERE `no`=?";
+	
+	public static final String DELETE_COMMENT = "DELETE FROM `board_article` WHERE `no`=?";
 }
