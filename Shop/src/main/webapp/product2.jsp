@@ -38,58 +38,48 @@
 		<meta charset="UTF-8">
 		<title>product</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-		<script src="./js/product.js"></script>
-		<script>
-		$(document).ready(function(){
-			
-			// 주문하기 화면 출력
-			$(document).on('click', '#btnProduct', function(e){
-				e.preventDefault();
-				let prod = $(this).parent().parent().children();
+		<script>		
+			$(function(){
+				$('.btnOrder').click(function(){
+					let prodNo = $(this).val();
+					$('section').show().find('input[name=prodNo]').val(prodNo);
+				});
 				
-				product(prod);
-			});
-			
-			// 주문하기 정보 전송
-			$(document).on('click', '#btnOrder', function(){
+				$('.btnClose').click(function(){
+					$('section').hide();
+				});
 				
-				// 입력한 정보 변수에 담기
-				let prodNo = $('input[name=prodNo]').val();
-				let orderCount = $('input[name=orderCount]').val();
-				let uid = $('input[name=uid]').val();
-				
-				// Json변환
-				let jsonData = {
-						"prodNo":prodNo,
-						"orderCount":orderCount,
-						"uid":uid
-				};
-				
-				// 변환된 정보 proc파일 전송
-				$.ajax({
-					url: './productProc.jsp',
-					method: 'post',
-					data: jsonData,
-					dataType: 'json',
-					success: function(data){
-						if(data.result == 1){
+				$('input[type=submit]').click(function(){
+					
+					let prodNo 		= $('input[name=prodNo]').val;
+					let prodCount 	= $('input[name=prodCount]').val;
+					let prodOrderer = $('input[name=prodOrderer]').val;
+					
+					let jsonData = {
+							"prodNo": prodNo,
+							"prodCount": prodCount,
+							"prodOrderer": prodOrderer
+					};
+					
+					$.post('./registerProc.jsp', 'jsonData', function(data){
+						
+						if(data.result > 0){
 							alert('주문완료!');
 						}else{
 							alert('주문실패!');
 						}
-					}
-				});
-				
+						
+					});
+					
+					
+				});;
 			});
-			
-		});
 		</script>
 	</head>
 	<body>
 		<h3>상품목록</h3>
 		<a href="./order.jsp">주문목록</a>
-		<a href="./customer.jsp">고객목록</a>
-		<form action="#" method="post">
+		<a href="./product.jsp">상품목록</a>
 			<table border="1">
 				<tr>
 					<th>상품번호</th>
@@ -107,13 +97,32 @@
 					<td><%= sb.getPrice() %></td>
 					<td><%= sb.getCompany() %></td>
 					<td>
-						<input type="submit" id="btnProduct" value="주문">
+						<button class="btnOrder" value="<%= sb.getProdNo() %>">주문</button>
 					</td>
 				</tr>
 				<% } %>
 			</table>
-			<h4></h4>
-			<section></section>
-		</form>
+		
+			<section style="display:none;">
+				<h4>주문하기</h4>
+				<table border="1">
+					<tr>
+						<td>상품번호</td>
+						<td><input type="text" name="prodNo" readonly="readonly"/></td>
+					</tr>
+					<tr>
+						<td>수량</td>
+						<td><input type="text" name="prodCount"/></td>
+					</tr>
+					<tr>
+						<td>주문자</td>
+						<td><input type="text" name="prodOrderer"/></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="right"><input type="submit" value="주문하기"/></td>
+					</tr>
+				</table>
+				<button class="btnClose">닫기</button>
+			</section>
 	</body>
 </html>

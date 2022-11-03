@@ -44,7 +44,7 @@ List<ShopBean> shops = new ArrayList<>();
 	</head>
 	<body>
 		<h3>주문목록</h3>
-		<a href="./order.jsp">주문목록</a>
+		<a href="./customer.jsp">고객목록</a>
 		<a href="./product.jsp">상품목록</a>
 		<table border="1">
 			<tr>

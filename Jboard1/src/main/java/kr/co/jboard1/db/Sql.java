@@ -17,8 +17,11 @@ public class Sql {
 											+ "`rdate`=NOW()";
 	
 	public static final String SELECT_TERMS = "SELECT * FROM `board_terms`";
+	
 	public static final String SELECT_USER = "SELECT * FROM `board_user` WHERE `uid`=? AND `pass`=SHA2(?, 256)";
+	
 	public static final String SELECT_COUNT_UID = "SELECT COUNT(`uid`) FROM `board_user` WHERE `uid`=?";
+	
 	public static final String SELECT_COUNT_NICK = "SELECT COUNT(`nick`) FROM `board_user` WHERE `nick`=?";
 	
 	// board
@@ -75,11 +78,13 @@ public class Sql {
 													+ "JOIN `board_user` AS b USING (`uid`) "
 													+ "WHERE `parent`!=0 ORDER BY `no` DESC LIMIT 1";
 	
-	public static final String SELECT_MODIFY = "SELECT * FROM `board_article` AS a "
-												+ "left JOIN `board_file` AS b ON a.no = b.parent "
-												+ "WHERE `no`=?";
+	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `rdate`=NOW() WHERE `no`=?";
 	
 	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit` = `hit` + 1 WHERE `no`=?";
+	
+	public static final String UPDATE_ARTICLE_COMMENT_PLUS = "UPDATE `board_article` SET `comment` = `comment` + 1 WHERE `no`=?";
+	
+	public static final String UPDATE_ARTICLE_COMMENT_MINUS = "UPDATE `board_article` SET `comment` = `comment` - 1 WHERE `no`=?";
 	
 	public static final String UPDATE_FILE_DOWNLOAD = "UPDATE `board_file` set `download` = `download` + 1 WHERE `fno`=?";
 	
@@ -88,5 +93,9 @@ public class Sql {
 												+ "`rdate`=NOW() "
 												+ "WHERE `no`=?";
 	
+	public static final String DELETE_ARTICLE = "DELETE FROM `board_article` WHERE `no`=? OR `parent`=?";
+	
 	public static final String DELETE_COMMENT = "DELETE FROM `board_article` WHERE `no`=?";
+	
+	public static final String DELETE_FILE = "DELETE FROM `board_file` WHERE `parent`=?";
 }

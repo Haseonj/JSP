@@ -34,19 +34,14 @@
 		psmt2.setString(1, prodNo);
 		
 		
+		conn.commit();
+		
 		result = psmt1.executeUpdate();
 		psmt2.executeUpdate();
-		
-		
-		if(result != 0){
-			conn.commit();	
-		}
-		
 		
 		psmt1.close();
 		conn.close();
 	}catch(Exception e){
-		conn.rollback();
 		e.printStackTrace();
 	}
 	
