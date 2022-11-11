@@ -12,7 +12,7 @@
 	String uid = request.getParameter("uid");
 	
 	// 데이터베이스 작업
-	int result = UserDAO.getInstance().selectUsers(uid);
+	int result = UserDAO.getInstance().selectCountUid(uid);
 	
 	// JSON 출력
 	JsonObject json = new JsonObject();

@@ -11,14 +11,12 @@
 	
 	request.setCharacterEncoding("UTF-8");
 	String no		= request.getParameter("no");
-	String parent	= request.getParameter("parent");
 	String content 	= request.getParameter("content");
 	String uid 		= request.getParameter("uid");
 	String regip 	= request.getRemoteAddr();
 	
 	ArticleBean comment = new ArticleBean();
 	comment.setParent(no);
-	comment.setParent(parent);
 	comment.setContent(content);
 	comment.setUid(uid);
 	comment.setRegip(regip);
@@ -30,6 +28,7 @@
 	JsonObject json = new JsonObject();
 	json.addProperty("result", 1);
 	json.addProperty("no", article.getNo());
+	json.addProperty("parent", article.getParent());
 	json.addProperty("nick", article.getNick());
 	json.addProperty("date", article.getRdate());
 	json.addProperty("content", article.getContent());

@@ -106,7 +106,29 @@ public class UserDAO extends DBHelper {
 
 	}
 	
-	public int selectUsers(String uid) {
+	public int selectCountNick(String nick) {
+		int result = 0;
+		
+		try{
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_COUNT_NICK);
+			psmt.setString(1, nick);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt(1);
+			}
+			
+			close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public int selectCountUid(String uid) {
 		int result = 0;
 		
 		try{
@@ -129,6 +151,5 @@ public class UserDAO extends DBHelper {
 	}
 	
 	public void updateUser() {}
-	
 	public void deleteUser() {}
 }

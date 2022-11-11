@@ -1,6 +1,6 @@
 <%@page import="com.google.gson.JsonObject"%>
 <%@page import="kr.co.jboard1.dao.ArticleDAO"%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="application/json;charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String no = request.getParameter("no");
