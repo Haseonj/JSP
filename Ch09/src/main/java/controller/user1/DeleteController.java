@@ -26,10 +26,8 @@ public class DeleteController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String uid  = req.getParameter("uid");
 		
-		User1DAO.getinstace().deleteUser1(uid);
+		User1DAO.getInstance().deleteUser1(uid);
 		resp.sendRedirect("/Ch09/user1/list.do");
-		
-		
 	}
 	
 	@Override

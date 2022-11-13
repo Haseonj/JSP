@@ -9,7 +9,7 @@ import vo.User1VO;
 public class User1DAO extends DBHelper {
 	
 	private static User1DAO instance = new User1DAO();
-	public static User1DAO getinstace() {
+	public static User1DAO getInstance() {
 		return instance;
 	}
 	private User1DAO() {}
@@ -103,10 +103,8 @@ public class User1DAO extends DBHelper {
 			psmt.executeUpdate();
 			
 			close();
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

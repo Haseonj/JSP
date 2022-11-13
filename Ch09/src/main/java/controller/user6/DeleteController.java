@@ -1,20 +1,18 @@
-package controller.user1;
+package controller.user6;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.User1DAO;
-import vo.User1VO;
+import dao.User5DAO;
+import dao.User6DAO;
 
-@WebServlet("/user1/list.do")
-public class ListController extends HttpServlet {
+@WebServlet("/user6/delete.do")
+public class DeleteController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,19 +22,14 @@ public class ListController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String uid = req.getParameter("uid");
 		
-		List<User1VO> users = User1DAO.getInstance().selectUser1s();
-		
-		req.setAttribute("users", users);
-		
-		// 포워드
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user1/list.jsp");
-		dispatcher.forward(req, resp);
+		User6DAO.getInstance().deleteUser6(uid);
+		resp.sendRedirect("/Ch09/user6/list.do");
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	}
-	
 	
 }

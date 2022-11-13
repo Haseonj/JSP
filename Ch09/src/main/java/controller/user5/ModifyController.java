@@ -1,4 +1,4 @@
-package controller.user1;
+package controller.user5;
 
 import java.io.IOException;
 
@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.User1DAO;
-import vo.User1VO;
+import dao.User5DAO;
+import vo.User5VO;
 
-@WebServlet("/user1/modify.do")
+@WebServlet("/user5/modify.do")
 public class ModifyController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -26,10 +26,10 @@ public class ModifyController extends HttpServlet {
 		
 		String uid = req.getParameter("uid");
 		
-		User1VO vo = User1DAO.getInstance().selectUser1(uid);
+		User5VO vo = User5DAO.getInstance().selectUser5(uid);
 		req.setAttribute("vo", vo);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user1/modify.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/user5/modify.jsp");
 		dispatcher.forward(req, resp);
 	}
 	
@@ -37,19 +37,22 @@ public class ModifyController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String uid = req.getParameter("uid");
 		String name = req.getParameter("name");
-		String hp = req.getParameter("hp");
+		String birth = req.getParameter("birth");
 		String age = req.getParameter("age");
+		String address = req.getParameter("address");
+		String hp = req.getParameter("hp");
 		
-		User1VO vo = new User1VO();
+		User5VO vo = new User5VO();
 		vo.setUid(uid);
 		vo.setName(name);
-		vo.setHp(hp);
+		vo.setBirth(birth);
 		vo.setAge(age);
+		vo.setAddress(address);
+		vo.setHp(hp);
 		
-		User1DAO.getInstance().updateUser1(vo);
+		User5DAO.getInstance().updateUser5(vo);
 		
-		resp.sendRedirect("/Ch09/user1/list.do");
-		
+		resp.sendRedirect("/Ch09/user5/list.do");
 	}
-	
+
 }

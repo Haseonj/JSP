@@ -1,4 +1,4 @@
-package controller.user1;
+package controller.user2;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.User1DAO;
-import vo.User1VO;
+import dao.User2DAO;
+import vo.User2VO;
 
-@WebServlet("/user1/list.do")
+@WebServlet("/user2/list.do")
 public class ListController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -24,19 +24,17 @@ public class ListController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		List<User1VO> users = User1DAO.getInstance().selectUser1s();
+	
+		List<User2VO> users = User2DAO.getInstance().selectUser2s();
 		
 		req.setAttribute("users", users);
 		
 		// 포워드
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user1/list.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/user2/list.jsp");
 		dispatcher.forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	}
-	
-	
 }

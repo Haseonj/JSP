@@ -1,4 +1,4 @@
-package controller.user1;
+package controller.user2;
 
 import java.io.IOException;
 
@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.User1DAO;
-import vo.User1VO;
+import dao.User2DAO;
+import vo.User2VO;
 
-@WebServlet("/user1/modify.do")
+@WebServlet("/user2/modify.do")
 public class ModifyController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -23,33 +23,32 @@ public class ModifyController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	
 		String uid = req.getParameter("uid");
 		
-		User1VO vo = User1DAO.getInstance().selectUser1(uid);
+		User2VO vo = User2DAO.getInstance().selectUser2(uid);
 		req.setAttribute("vo", vo);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user1/modify.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/user2/modify.jsp");
 		dispatcher.forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String uid = req.getParameter("uid");
+		String uid 	= req.getParameter("uid");
 		String name = req.getParameter("name");
-		String hp = req.getParameter("hp");
-		String age = req.getParameter("age");
+		String hp 	= req.getParameter("hp");
+		String age 	= req.getParameter("age");
 		
-		User1VO vo = new User1VO();
+		User2VO vo = new User2VO();
 		vo.setUid(uid);
 		vo.setName(name);
 		vo.setHp(hp);
 		vo.setAge(age);
 		
-		User1DAO.getInstance().updateUser1(vo);
+		User2DAO.getInstance().updateUser2(vo);
 		
-		resp.sendRedirect("/Ch09/user1/list.do");
-		
+		resp.sendRedirect("/Ch09/user2/list.do");
 	}
-	
+
 }

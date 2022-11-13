@@ -4,12 +4,12 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>user::list</title>
+		<title>user1::list</title>
 	</head>
 	<body>
 		<h3>user1 목록</h3>
 		<a href="/Ch09/">처음으로</a>
-		<a href="/Ch09/user1/register.do">user 등록</a>
+		<a href="/Ch09/user1/register.do">user1 등록</a>
 		
 		<table border="1">
 			<tr>

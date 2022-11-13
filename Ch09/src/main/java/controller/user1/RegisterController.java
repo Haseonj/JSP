@@ -43,13 +43,10 @@ public class RegisterController extends HttpServlet {
 		vo.setHp(hp);
 		vo.setAge(age);
 		
-		User1DAO.getinstace().insertUser1(vo);
+		User1DAO.getInstance().insertUser1(vo);
 		
 		// 리다이렉트
 		resp.sendRedirect("/Ch09/user1/list.do");
-		
-		
 	}
-	
 	
 }
