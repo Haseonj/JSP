@@ -60,4 +60,151 @@ let isHpOk 		= false;
 			});
 		}, 500);
 	});
+	
+	// 비밀번호 검사하기
+	$('input[name=pass2]').focusout(function(){
+		
+		let pass = $('input[name=pass]').val();
+		let pass2 = $('input[name=pass2]').val();
+		
+		if(pass2.match(rePass)){
+			
+			if(pass == pass2){
+				isPassOk = true;
+				$('.passResult').css('color', 'green').text('사용하실 수 있는 비밀번호 입니다.');
+			}else{
+				isPassOk = false;
+				$('.passResult').css('color', 'red').text('비밀번호가 일치하지 않습니다.');
+			}
+		}else{
+			isPassOk = false;
+			$('.passResult').css('color', 'red').text('비밀번호는 숫자, 영문, 특수문자 포함 5자리 이상 이어야 합니다.');
+		}
+	});
+	
+	// 이름 검사하기
+	$('input[name=name]').focusout(function(){
+		
+		let name = $(this).val();
+		
+		if(name.match(reName)){
+			isNameOk = true;
+			$('.nameResult').text('');
+		}else{
+			isNameOk = false;
+			$('.nameResult').css('color', 'red').text('유효한 이름이 아닙니다.');
+		}
+	});
+	
+	// 별명 검사하기
+	$('input[name=nick]').keydown(function(){
+		isNickOk = false;
+	});
+	
+	$('#btnNickCheck').click(function(){
+		
+		let nick = $('input[name=nick]').val();
+		
+		if(isNickOk){
+			return;
+		}
+		
+		if(!nick.match(reNick)){
+			$('.nickResult').css('color', 'red').text('유효한 별명이 아닙니다.');
+			isNickOk = false;
+			return;
+		}
+		
+		let jsonData = {
+			"nick":nick
+		};
+		
+		setTimeout(function(){
+			
+			$.ajax({
+				url: '/Farmstory1/user/proc/checkNick.jsp',
+				method: 'get',
+				data: jsonData,
+				dataType: 'json',
+				success: function(data){
+					if(data.result == 0){
+						$('.nickResult').css('color', 'green').text('사용 가능한 별명 입니다.');
+						isNickOk = true;
+					}else{
+						$('.nickResult').css('color', 'red').text('이미 사용중인 별명 입니다.');
+						isNickOk = false;
+					}
+				}
+			});
+		}, 500);
+	});
+	
+	// 이메일 검사하기
+	$('input[name=email]').focusout(function(){
+		
+		let email = $(this).val();
+		
+		if(email.match(reEmail)){
+			isEmailOk = true;
+			$('.emailResult').text('');
+		}else{
+			isEmailOk = false;
+			$('.email.Result').css('color', 'red').text('유효하지 않은 이메일입니다.');
+		}
+	});
+	
+	// 휴대폰 검사하기
+	$('input[name=hp]').focusout(function(){
+		
+		let hp = $(this).val();
+		
+		if(hp.match(reHp)){
+			isHpOk = true;
+			$('.hpResult').text('');
+		}else{
+			isHpOk = false;
+			$('.hpResult').css('color', 'red').text('유효하지 않은 휴대폰입니다.');
+		}
+	});
+	
+	// 최종 폼 전송할 때 
+	$('.register > form').submit(function(){
+		
+		// 아이디 검증
+		if(!isUidOk){
+			alert('아이디를 확인 하십시오.');
+			return false;
+		}
+		
+		// 비밀번호 검증
+		if(!isPassOk){
+			alert('비밀번호가 유효하지 않습니다.');
+			return false;
+		}
+		
+		// 이름 검증
+		if(!isNameOk){
+			alert('이름이 유효하지 않습니다.');
+			return false;
+		}
+		
+		// 별명 검증
+		if(!isNickOk){
+			alert('별명을 확인 하십시오.');
+			return false;
+		}
+		
+		// 이메일 검증
+		if(!isEmailOk){
+			alert('이메일이 유효하지 않습니다.');
+			return false;
+		}
+		
+		// 휴대폰 검증
+		if(!isHpOk){
+			alert('휴대폰이 유효하지 않습니다.');
+			return false;
+		}
+		return true;		
+	});
 });
