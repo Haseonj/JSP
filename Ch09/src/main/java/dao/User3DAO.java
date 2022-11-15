@@ -5,7 +5,6 @@ import java.util.List;
 
 import db.DBHelper;
 import vo.User3VO;
-import vo.User4VO;
 
 public class User3DAO extends DBHelper {
 	

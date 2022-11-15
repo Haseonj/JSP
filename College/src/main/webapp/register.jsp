@@ -5,7 +5,7 @@
 <%
 	CollegeDAO dao = CollegeDAO.getInstance();
 
-	List<CollegeBean> colleges = dao.selectRegister();
+	List<CollegeBean> registers = dao.selectRegister();
 %>
 <!DOCTYPE html>
 <html>
@@ -15,9 +15,9 @@
 	</head>
 	<body>
 		<h3>수강관리</h3>
-		<a href="#">강좌관리</a>
-		<a href="#">수강관리</a>
-		<a href="#">학생관리</a>
+		<a href="/College/lecture.jsp">강좌관리</a>
+		<a href="/College/register.jsp">수강관리</a>
+		<a href="/College/student.jsp">학생관리</a>
 		<table border="1">
 			<tr>
 				<th>학번</th>
@@ -29,14 +29,16 @@
 				<th>총점</th>
 				<th>등급</th>
 			</tr>
-			<% for(CollegeBean college : colleges){ %>
+			<% for(CollegeBean register : registers){ %>
 			<tr>
-				<td><%= college.getRegStdNo() %></td>
-				<td><%= college.getRegLecNo() %></td>
-				<td><%= college.getRegMidScore() %></td>
-				<td><%= college.getRegFinalScore() %></td>
-				<td><%= college.getRegTotalScore() %></td>
-				<td><%= college.getRegGrade() %></td>
+				<td><%= register.getRegStdNo() %></td>
+				<td><%= register.getStdName() %></td>
+				<td><%= register.getLecName() %></td>
+				<td><%= register.getRegLecNo() %></td>
+				<td><%= register.getRegMidScore() %></td>
+				<td><%= register.getRegFinalScore() %></td>
+				<td><%= register.getRegTotalScore() %></td>
+				<td><%= register.getRegGrade() %></td>
 			</tr>
 			<% } %>
 		</table>

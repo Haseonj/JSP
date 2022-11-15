@@ -16,6 +16,17 @@ request.setCharacterEncoding("UTF-8");
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 			$(function(){
+				// 강좌등록 창 열기
+				$('.btnInsert').click(function(){
+					$('section').show();
+				});
+				
+				// 강좌등록 창 닫기
+				$('.btnClose').click(function(){
+					$('section').hide();
+				});
+				
+				// 강좌등록
 				$('input[type=submit]').click(function(){
 					
 					let lecNo = $('input[name=lecNo]').val();
@@ -35,10 +46,9 @@ request.setCharacterEncoding("UTF-8");
 					
 					$.post('./proc/lectureProc.jsp', jsonData, function(data){
 						if(data.result == 1){
-							('강좌가 추가되었습니다.')
-							
+							alert('강좌가 추가되었습니다.');
 						}else{
-							('다시 한 번 확인 해 주십시오.')
+							alert('다시 한 번 확인 해 주십시오.');
 						}
 					});
 				});
@@ -47,9 +57,9 @@ request.setCharacterEncoding("UTF-8");
 	</head>
 	<body>
 		<h3>수강관리</h3>
-		<a href="#">강좌관리</a>
-		<a href="#">수강관리</a>
-		<a href="#">학생관리</a>
+		<a href="/College/lecture.jsp">강좌관리</a>
+		<a href="/College/register.jsp">수강관리</a>
+		<a href="/College/student.jsp">학생관리</a>
 		<h4>강좌현황</h4>
 		<table border="1">
 			<tr>
@@ -70,8 +80,9 @@ request.setCharacterEncoding("UTF-8");
 				<td><%= lecture.getLecClass() %></td>
 			</tr>
 			<% } %>
+			<button class="btnInsert">등록</button>
 		</table>
-		<section>
+		<section style="display:none;">
 		<h4>강좌등록</h4>
 		<table border="1">
 			<tr>

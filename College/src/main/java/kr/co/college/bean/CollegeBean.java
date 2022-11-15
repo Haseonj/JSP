@@ -19,7 +19,7 @@ public class CollegeBean {
 	
 	// student
 	private int stdNo;
-	private String stName;
+	private String stdName;
 	private String stdHp;
 	private int stdYear;
 	private String stdAddress;
@@ -118,11 +118,11 @@ public class CollegeBean {
 	public void setStdNo(int stdNo) {
 		this.stdNo = stdNo;
 	}
-	public String getStName() {
-		return stName;
+	public String getStdName() {
+		return stdName;
 	}
-	public void setStName(String stName) {
-		this.stName = stName;
+	public void setStdName(String stdName) {
+		this.stdName = stdName;
 	}
 	public String getStdHp() {
 		return stdHp;

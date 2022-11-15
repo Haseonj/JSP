@@ -60,11 +60,13 @@ public class CollegeDAO extends DBHelper{
 			while(rs.next()) {
 				CollegeBean register = new CollegeBean();
 				register.setRegStdNo(rs.getInt(1));
-				register.setRegLecNo(rs.getInt(2));
-				register.setRegMidScore(rs.getInt(3));
-				register.setRegFinalScore(rs.getInt(4));
-				register.setRegTotalScore(rs.getInt(5));
-				register.setRegGrade(rs.getString(6));
+				register.setStdName(rs.getString(2));
+				register.setLecName(rs.getString(3));
+				register.setRegLecNo(rs.getInt(4));
+				register.setRegMidScore(rs.getInt(5));
+				register.setRegFinalScore(rs.getInt(6));
+				register.setRegTotalScore(rs.getInt(7));
+				register.setRegGrade(rs.getString(8));
 				
 				registers.add(register);
 			}
@@ -76,6 +78,33 @@ public class CollegeDAO extends DBHelper{
 		}
 		return registers;
 		
+	}
+	
+	public List<CollegeBean> selectStudent() {
+		
+		List<CollegeBean> students = new ArrayList<>();
+		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(Sql.SELECT_STUDENT);
+			
+			while(rs.next()) {
+				CollegeBean student = new CollegeBean();
+				student.setStdNo(rs.getInt(1));
+				student.setStdName(rs.getString(2));
+				student.setStdHp(rs.getString(3));
+				student.setStdYear(rs.getInt(4));
+				student.setStdAddress(rs.getString(5));
+				
+				students.add(student);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return students;
 	}
 	
 	public int insertLecture(CollegeBean lecture) {

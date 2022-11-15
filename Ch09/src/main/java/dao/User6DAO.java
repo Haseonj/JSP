@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import db.DBHelper;
-import vo.User5VO;
 import vo.User6VO;
 
 public class User6DAO extends DBHelper {

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.User5DAO;
 import dao.User6DAO;
 
 @WebServlet("/user6/delete.do")
