@@ -1,4 +1,4 @@
-package farmstory1.bean;
+package kr.co.farmstory1.bean;
 
 public class UserBean {
 	
@@ -12,6 +12,8 @@ public class UserBean {
 	private String zip;
 	private String addr1;
 	private String addr2;
+	private String regip;
+	private String rdate;
 	
 	public String getUid() {
 		return uid;
@@ -88,8 +90,10 @@ public class UserBean {
 	public void setRdate(String rdate) {
 		this.rdate = rdate;
 	}
-	private String regip;
-	private String rdate;
 	
+	@Override
+	public String toString() {
+		return "uid : "+uid+", name : "+name;
+	}
 	
 }
