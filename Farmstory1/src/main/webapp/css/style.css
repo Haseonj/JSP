@@ -133,6 +133,12 @@ main > .slider > .banner > img:nth-child(3) {
     margin-left: 10px;
 }
 
+.bx-wrapper {            
+    box-shadow: none;
+    border: none;
+    background: #fff;
+}
+
 main > .quick {
     height: 74px;
     overflow: hidden;
@@ -241,6 +247,59 @@ main > .info > div > .account {
     color: #666;
 }
 
+
+/* 탭 커스텀 */
+.ui-widget.ui-widget-content {
+	border: none;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+	border-bottom-right-radius: 0px;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+	border-bottom-left-radius: 0px;
+}
+
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
+	border-top-right-radius: 0px;
+}
+
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+	border-top-left-radius: 0px;
+}
+
+.ui-widget-content {
+	border: none;
+	background: #ffffff;
+	color: #222222;
+}
+
+.ui-widget-header {
+	border: none;
+	border-bottom: 1px solid #aaaaaa;
+	background: none;
+	color: #222222;
+	font-weight: bold;
+}
+
+.ui-tabs .ui-tabs-nav {
+	margin: 0;
+	padding: 0;
+}
+
+.ui-tabs .ui-tabs-panel {
+	padding: 10px;
+}
+
+#tabs .txt > li {
+	border-bottom: 1px solid #d1d1d1;
+	line-height: 26px;
+}
+
+#tabs .txt > li > a {
+	color: #666;
+}
 
 /* 푸터 */
 footer {
