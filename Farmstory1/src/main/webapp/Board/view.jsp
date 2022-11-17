@@ -10,7 +10,10 @@
 
 	pageContext.include("/Board/_"+group+".jsp");
 	
-	ArticleBean ab = ArticleDAO.getinstance().selectArticle(no);
+	ArticleDAO dao = ArticleDAO.getinstance();
+	
+	ArticleBean ab = dao.selectArticle(no);
+	dao.updateArticleHit(no);
 	
 %>
 	        <main id="board">
@@ -39,7 +42,7 @@
 	                    </table>
 	
 	                    <div>
-	                        <a href="#" class="btn btnRemove">삭제</a>
+	                        <a href="/Farmstory1/Board/proc/deleteProc.jsp?no=<%= ab.getNo() %>&pg=<%= pg %>&group=<%= group %>&cate=<%= cate %>" class="btn btnRemove">삭제</a>
 	                        <a href="./modify.jsp?group=<%= group %>&cate=<%= cate %>&pg=<%= pg %>&no=<%= ab.getNo() %>" class="btn btnModify">수정</a>
 	                        <a href="./list.jsp?group=<%= group %>&cate=<%= cate %>" class="btn btnList">목록</a>
 	

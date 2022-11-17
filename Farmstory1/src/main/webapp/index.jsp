@@ -22,21 +22,21 @@
 		
 		$.get('/Farmstory1/Board/proc/getLatest.jsp?cate=notice', function(data){
 			for(let latest of data){
-				let url = "/Farmstory1/Board/view.jsp?group=community&cate=notice&no"+latest.no+"&pg=1";
+				let url = "/Farmstory1/Board/view.jsp?group=community&cate=notice&no="+latest.no+"&pg=1";
 				$('#tabs-1 > .txt').append("<li><a href='"+url+"'>"+latest.title+"</li>");
 			}
 		});
 		
 		$.get('/Farmstory1/Board/proc/getLatest.jsp?cate=qna', function(data){
 			for(let latest of data){
-				let url = "/Farmstory1/Board/view.jsp?group=community&cate=qna&no"+latest.no+"&pg=1";
+				let url = "/Farmstory1/Board/view.jsp?group=community&cate=qna&no="+latest.no+"&pg=1";
 				$('#tabs-2 > .txt').append("<li><a href='"+url+"'>"+latest.title+"</li>");
 			}
 		});
 		
 		$.get('/Farmstory1/Board/proc/getLatest.jsp?cate=faq', function(data){
 			for(let latest of data){
-				let url = "/Farmstory1/Board/view.jsp?group=community&cate=faq&no"+latest.no+"&pg=1";
+				let url = "/Farmstory1/Board/view.jsp?group=community&cate=faq&no="+latest.no+"&pg=1";
 				$('#tabs-3 > .txt').append("<li><a href='"+url+"'>"+latest.title+"</li>");
 			}
 		});
