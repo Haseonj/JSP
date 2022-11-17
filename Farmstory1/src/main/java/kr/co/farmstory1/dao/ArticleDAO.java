@@ -74,7 +74,47 @@ public class ArticleDAO extends DBHelper {
 		}
 	}
 	
-	public void selectArticle() {}
+	public ArticleBean selectArticle(String no) {
+		ArticleBean ab = null;
+		try {
+			logger.info("selectArticle...");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_ARTICLE);
+			psmt.setString(1, no);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				ab = new ArticleBean();
+				ab.setNo(rs.getInt(1));
+				ab.setParent(rs.getInt(2));
+				ab.setComment(rs.getInt(3));
+				ab.setCate(rs.getString(4));
+				ab.setTitle(rs.getString(5));
+				ab.setContent(rs.getString(6));
+				ab.setFile(rs.getInt(7));
+				ab.setHit(rs.getInt(8));
+				ab.setUid(rs.getString(9));
+				ab.setRegip(rs.getString(10));
+				ab.setRdate(rs.getString(11));
+				ab.setFno(rs.getInt(12));
+				ab.setPno(rs.getInt(13));
+				ab.setNewName(rs.getString(14));
+				ab.setOriName(rs.getString(15));
+				ab.setDownload(rs.getInt(16));
+			}
+			
+			close();
+			
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
+		return ab;
+	}
+	
+	
 	public List<ArticleBean> selectArticles(String cate, int limitStart) {
 		List<ArticleBean> articles = new ArrayList<>();
 		
@@ -111,6 +151,62 @@ public class ArticleDAO extends DBHelper {
 		return articles;
 	}
 	
+	public List<ArticleBean> selectLatests(String cate1, String cate2, String cate3) {
+		List<ArticleBean> latests = new ArrayList<>();
+		try {
+			logger.info("selectLatest...");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_LATESTS);
+			psmt.setString(1, cate1);
+			psmt.setString(2, cate2);
+			psmt.setString(3, cate3);
+			
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleBean ab = new ArticleBean();
+				ab.setNo(rs.getInt(1));
+				ab.setTitle(rs.getString(2));
+				ab.setRdate(rs.getString(3).substring(2, 10));
+				
+				latests.add(ab);
+			}
+			
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return latests;
+	}
+	
+	public synchronized List<ArticleBean> selectLatests(String cate) {
+		List<ArticleBean> latests = new ArrayList<>();
+		try {
+			logger.info("selectLatest(String)...");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_LATEST);
+			psmt.setString(1, cate);
+			
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleBean ab = new ArticleBean();
+				ab.setNo(rs.getInt(1));
+				ab.setTitle(rs.getString(2));
+				ab.setRdate(rs.getString(3).substring(2, 10));
+				
+				latests.add(ab);
+			}
+			
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return latests;
+	}
+	
 	public int selectCountTotal(String cate) {
 		int total = 0;
 		
@@ -133,7 +229,21 @@ public class ArticleDAO extends DBHelper {
 		return total;
 	}
 	
-	public void updateArticle() {}
+	public void updateArticle(String title, String content, String no) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_ARTICLE);
+			psmt.setString(1, title);
+			psmt.setString(2, content);
+			psmt.setString(3, no);
+			
+			psmt.executeUpdate();
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 	
 	public void deleteArticle() {}
 }

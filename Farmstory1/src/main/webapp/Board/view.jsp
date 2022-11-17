@@ -1,10 +1,17 @@
+<%@page import="kr.co.farmstory1.bean.ArticleBean"%>
+<%@page import="kr.co.farmstory1.dao.ArticleDAO"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/_header.jsp" %>
 <%
 	String group = request.getParameter("group");
-	String cate =request.getParameter("cate");
+	String cate = request.getParameter("cate");
+	String no = request.getParameter("no");
+	String pg = request.getParameter("pg");
 
 	pageContext.include("/Board/_"+group+".jsp");
+	
+	ArticleBean ab = ArticleDAO.getinstance().selectArticle(no);
+	
 %>
 	        <main id="board">
 	            <section class="view">
@@ -13,25 +20,27 @@
 	                        <caption>글보기</caption>
 	                        <tr>
 	                            <th>제목</th>
-	                            <td><input type="text" name="title" value="제목입니다." readonly></td>
-	                        </tr> 
+	                            <td><input type="text" name="title" readonly value="<%= ab.getTitle() %>"></td>
+	                        </tr>
+	                        <% if(ab.getFile() > 0){ %> 
 	                        <tr>
 	                            <th>파일</th>    
 	                            <td>
-	                                <a href="#">2020년 상반기 매출자료.xls</a>&nbsp;<span>7</span>회 다운로드
+	                                <a href="/Farmstory1/Board/proc/download.jsp?parent=<%= ab.getNo() %>"><%= ab.getOriName() %></a>&nbsp;<span><%= ab.getDownload() %></span>회 다운로드
 	                            </td>
 	                        </tr>
+	                        <% } %>
 	                        <tr>   
 	                            <th>내용</th>
 	                            <td>
-	                                <textarea name="content" readonly>내용 샘플입니다.</textarea>
+	                                <textarea name="content" readonly><%= ab.getContent() %></textarea>
 	                            </td>
 	                        </tr>
 	                    </table>
 	
 	                    <div>
 	                        <a href="#" class="btn btnRemove">삭제</a>
-	                        <a href="./modify.jsp?group=<%= group %>&cate=<%= cate %>" class="btn btnModify">수정</a>
+	                        <a href="./modify.jsp?group=<%= group %>&cate=<%= cate %>&pg=<%= pg %>&no=<%= ab.getNo() %>" class="btn btnModify">수정</a>
 	                        <a href="./list.jsp?group=<%= group %>&cate=<%= cate %>" class="btn btnList">목록</a>
 	
 	                    </div>

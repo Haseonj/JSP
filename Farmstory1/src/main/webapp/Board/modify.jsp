@@ -1,33 +1,37 @@
+<%@page import="kr.co.farmstory1.bean.ArticleBean"%>
+<%@page import="kr.co.farmstory1.dao.ArticleDAO"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/_header.jsp" %>
 <%
 	String group = request.getParameter("group");
 	String cate = request.getParameter("cate");
+	String no = request.getParameter("no");
+	String pg = request.getParameter("pg");
 	
 	pageContext.include("/Board/_"+group+".jsp");
+	
+	ArticleBean ab = ArticleDAO.getinstance().selectArticle(no);
 %>
 	        <main id="board">
 	            
 	            <section class="modify">
-	                <form action="#">
+	                <form action="/Farmstory1/Board/proc/modifyProc.jsp?no=<%= ab.getNo() %>" method="get">
+	                	<input type="text" name="no" value="<%= no %>">
+	                	<input type="text" name="pg" value="<%= pg %>">
+	                	<input type="text" name="group" value="<%= group %>">
+	                	<input type="text" name="cate" value="<%= cate %>">
 	                    <table border="0">
 	                        <caption>글수정</caption>
 	                        <tr>
 	                            <th>제목</th>
 	                            <td>
-	                                <input type="text" name="title" placeholder="제목을 입력하세요">
+	                                <input type="text" name="title" value="<%= ab.getTitle() %>">
 	                            </td>
 	                        </tr> 
 	                        <tr>   
 	                            <th>내용</th>
 	                            <td>
-	                                <textarea name="content"></textarea>
-	                            </td>
-	                        </tr>
-	                        <tr>
-	                            <th>파일</th>    
-	                            <td>
-	                                <input type="file" name="file">
+	                                <textarea name="content"><%= ab.getContent() %></textarea>
 	                            </td>
 	                        </tr>
 	                    </table>
