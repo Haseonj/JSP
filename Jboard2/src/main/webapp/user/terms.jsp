@@ -1,5 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="./_header.jsp"/>
+<script>
+	$(function(){
+		$('.btnNext').click(function(){
+			
+			let isCheck1 = $('input[class=terms]').is(':checked');
+			let isCheck2 = $('input[class=privacy]').is(':checked');
+			
+			if(isCheck1 && isCheck2){
+				return true;
+			}else{
+				alert('동의 체크를 하셔야 합니다.');
+				return false;
+			}
+		});
+	});
+</script>
 <main id="user">
     <section class="terms">
         <table border="1">

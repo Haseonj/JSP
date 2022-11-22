@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/Jboard2/css/style.css"/>
 </head>
 <body>

@@ -9,10 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mysql.cj.Session;
+
+import kr.co.jboard2.service.user.UserService;
+import kr.co.jboard2.vo.UserVO;
+
 @WebServlet("/user/login.do")
 public class LoginController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private UserService service = UserService.INSTANCE;
 
 	@Override
 	public void init() throws ServletException {
@@ -20,6 +26,23 @@ public class LoginController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String uid = req.getParameter("uid");
+		String pass = req.getParameter("pass");
+		
+		UserVO vo = service.selectUser(uid, pass);
+		
+		if(vo != null) {
+			// 회원이 맞을 경우
+			// 세션처리
+			// session.setAttribute("sessUser", vo);
+			// 리다이렉트
+			resp.sendRedirect("/Jboard2/list.do");
+		}else {
+			// 회원이 아닐경우
+			resp.sendRedirect("/Jboard2/user/login.do?success=100");
+		}
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login.jsp");
 		dispatcher.forward(req, resp);
 	}
