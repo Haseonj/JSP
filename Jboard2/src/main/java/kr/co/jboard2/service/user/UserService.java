@@ -37,6 +37,14 @@ public enum UserService {
 	public UserVO selectUser(String uid, String pass) {
 		return dao.selectUser(uid, pass);
 	}
+	
+	public UserVO selectUserForFindId(String name, String email) {
+		return dao.selectUserForFindId(name, email);
+	}
+	public UserVO selectUserForFindPw(String uid, String email) {
+		return dao.selectUserForFindPw(uid, email);
+	}
+	
 	public void selectUsers() {}
 	
 	public int selectCountUid(String uid) {
@@ -46,7 +54,14 @@ public enum UserService {
 	public int selectCountNick(String nick) {
 		return dao.selectCountNick(nick);
 	}
+	
 	public void updateUser() {}
+	
+	public int updateUserPassword (String pass, String uid) {
+		return dao.updateUserPassword(pass, uid);
+	}
+	
+	
 	public void deleteUser() {}
 	
 	public int[] sendEmailCode(String receiver) {

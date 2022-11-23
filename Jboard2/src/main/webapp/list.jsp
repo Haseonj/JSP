@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="./_header.jsp">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="./_header.jsp"/>
         <main id="board">
             <section class="list">                
                 <form action="#">
@@ -15,26 +16,36 @@
                         <th>글쓴이</th>
                         <th>날짜</th>
                         <th>조회</th>
-                    </tr>                    
+                    </tr>
+                    <c:forEach var="vo" items="${articles}">                    
                     <tr>
-                        <td>1</td>
-                        <td><a href="./view.html">테스트 제목입니다.[3]</a></td>
-                        <td>길동이</td>
-                        <td>20-05-12</td>
+                        <td>${vo.no}</td>
+                        <td><a href="./view.html">${vo.title}[${vo.hit}]</a></td>
+                        <td>${vo.name}</td>
+                        <td>${vo.rdate}</td>
                         <td>12</td>
                     </tr>
+                    </c:forEach>
                 </table>
 
                 <div class="page">
-                    <a href="#" class="prev">이전</a>
-                    <a href="#" class="num current">1</a>
-                    <a href="#" class="num">2</a>
-                    <a href="#" class="num">3</a>
-                    <a href="#" class="next">다음</a>
+                	<c:choose>
+                		<c:when test="${pageGroupStart gt 1}">
+                    		<a href="/Jboard2/list.do?pg=${pageGroupStart-1}" class="prev">이전</a>
+                    	</c:when>
+                    </c:choose>
+                    <c:forEach var="i" begin="${pageGroupStart}" end="${i le pageGroupEnd}">
+                    	<a href="/Jboard2/list.do?pg=${i}" class="num ${currentPage == i ? current : off }">${i}</a>
+                    </c:forEach>
+                    <c:choose>
+                    	<c:when test="${pageGroupEnd lt lastPageNum}">
+                    		<a href="/Jboard2/list.do?pg=${pageGroupEnd + 1}" class="next">다음</a>
+                    	</c:when>
+                    </c:choose>
                 </div>
 
                 <a href="./write.html" class="btn btnWrite">글쓰기</a>
                 
             </section>
         </main>
-<jsp:include page="./_footer.jsp">
+<jsp:include page="./_footer.jsp"/>

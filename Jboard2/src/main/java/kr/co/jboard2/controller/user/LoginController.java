@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mysql.cj.Session;
 
@@ -27,21 +29,9 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		String uid = req.getParameter("uid");
-		String pass = req.getParameter("pass");
+		String success = req.getParameter("success");
+		req.setAttribute("success", success);
 		
-		UserVO vo = service.selectUser(uid, pass);
-		
-		if(vo != null) {
-			// 회원이 맞을 경우
-			// 세션처리
-			// session.setAttribute("sessUser", vo);
-			// 리다이렉트
-			resp.sendRedirect("/Jboard2/list.do");
-		}else {
-			// 회원이 아닐경우
-			resp.sendRedirect("/Jboard2/user/login.do?success=100");
-		}
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login.jsp");
 		dispatcher.forward(req, resp);
@@ -49,5 +39,22 @@ public class LoginController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String uid  = req.getParameter("uid");
+		String pass = req.getParameter("pass");
+		
+		UserVO vo = service.selectUser(uid, pass);
+		
+		if(vo != null) {
+			// 회원이 맞을경우
+			// 세션처리
+			HttpSession session = req.getSession();
+			session.setAttribute("sessUser", vo);
+			// 리다이렉트
+			resp.sendRedirect("/Jboard2/list.do");
+		}else {
+			// 회원이 아닐경우
+			resp.sendRedirect("/Jboard2/user/login.do?success=100");
+		}
 	}
 }
