@@ -10,15 +10,16 @@ public enum ArticleService {
 	INSTANCE;
 	private ArticleDAO dao;
 	
+	private ArticleService() {
+		dao = new ArticleDAO();
+	}
+
 	public int selectCountTotal () {
 		return dao.selectCountTotal();
 	}
 	
-	public List<ArticleVO> selectArticle(int limitStart) {
-		return dao.selectArticle(limitStart);
+	public List<ArticleVO> selectArticles(int limitStart) {
+		return dao.selectArticles(limitStart);
 	}
-	
-	
-	
 	
 }

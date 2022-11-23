@@ -17,31 +17,27 @@
                         <th>날짜</th>
                         <th>조회</th>
                     </tr>
-                    <c:forEach var="vo" items="${articles}">                    
+                    <c:forEach var="vo" items="${articles}">
                     <tr>
                         <td>${vo.no}</td>
-                        <td><a href="./view.html">${vo.title}[${vo.hit}]</a></td>
-                        <td>${vo.name}</td>
-                        <td>${vo.rdate}</td>
-                        <td>12</td>
+                        <td><a href="/Jboard2/view.do">${vo.title}[0]</a></td>
+                        <td>${vo.nick}</td>
+                        <td>${vo.rdate.substring(2, 10)}</td>
+                        <td>${vo.hit}</td>
                     </tr>
                     </c:forEach>
                 </table>
-
                 <div class="page">
-                	<c:choose>
-                		<c:when test="${pageGroupStart gt 1}">
-                    		<a href="/Jboard2/list.do?pg=${pageGroupStart-1}" class="prev">이전</a>
-                    	</c:when>
-                    </c:choose>
-                    <c:forEach var="i" begin="${pageGroupStart}" end="${i le pageGroupEnd}">
-                    	<a href="/Jboard2/list.do?pg=${i}" class="num ${currentPage == i ? current : off }">${i}</a>
-                    </c:forEach>
-                    <c:choose>
-                    	<c:when test="${pageGroupEnd lt lastPageNum}">
-                    		<a href="/Jboard2/list.do?pg=${pageGroupEnd + 1}" class="next">다음</a>
-                    	</c:when>
-                    </c:choose>
+                <c:if test="${pageGroupStart > 1}">
+					<a href="/Jboard2/list.do?pg=${pageGroupStart - 1}" class="prev">이전</a>
+				</c:if>
+				<c:set var="i" value="0"/>
+				<c:forEach begin="${i = pageGroupStart}" end="${i <= pageGroupEnd}" step="1">
+                    <a href="/Jboard2/list.do?pg=${i}" class="num ${currentPage == i ? current : off}">${i}</a>
+				</c:forEach>
+				<c:if test="${pageGroupEnd < lastPageNum}">
+                    <a href="/Jboard2/list.do?pg=${pageGroupEnd + 1}" class="next">다음</a>
+                </c:if>
                 </div>
 
                 <a href="./write.html" class="btn btnWrite">글쓰기</a>

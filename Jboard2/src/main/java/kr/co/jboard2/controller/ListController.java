@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import kr.co.jboard2.service.ArticleService;
 import kr.co.jboard2.vo.ArticleVO;
 
@@ -25,17 +26,7 @@ public class ListController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		
-		
-		
-		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/list.jsp");
-		dispatcher.forward(req, resp);
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		String pg = req.getParameter("pg");
 		
 		int limitStart = 0;
@@ -71,9 +62,21 @@ public class ListController extends HttpServlet {
 		
 		pageStartNum = total - limitStart;
 		
-		List<ArticleVO> articles = service.selectArticle(limitStart);
+
+		List<ArticleVO> articles = service.selectArticles(limitStart);
 		
 		req.setAttribute("articles", articles);
+				
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/list.jsp");
+		dispatcher.forward(req, resp);
+		
+		
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		
 	}
 
 }

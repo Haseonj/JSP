@@ -35,7 +35,7 @@ public class ArticleDAO extends DBHelper {
 		return total;
 	}
 	
-	public List<ArticleVO> selectArticle(int limitStart) {
+	public List<ArticleVO> selectArticles(int limitStart) {
 		List<ArticleVO> articles = new ArrayList<>();
 		try {
 			logger.info("selectArticle...");
@@ -67,4 +67,5 @@ public class ArticleDAO extends DBHelper {
 		}
 		return articles;
 	}
+	
 }

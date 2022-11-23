@@ -1,6 +1,5 @@
 package kr.co.jboard2.dao;
 
-import java.sql.PreparedStatement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
