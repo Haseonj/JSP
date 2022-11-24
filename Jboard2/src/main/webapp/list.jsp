@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="./_header.jsp"/>
         <main id="board">
-            <section class="list">                
+            <section class="list">
                 <form action="#">
                     <input type="text" name="search" placeholder="제목 키워드, 글쓴이 검색">
                     <input type="submit" value="검색">
@@ -39,7 +39,7 @@
                     	<a href="/Jboard2/list.do?pg=${pageGroupEnd + 1}" class="next">다음</a>
                     </c:if>
                 </div>
-                <a href="./write.html" class="btn btnWrite">글쓰기</a>
+                <a href="/Jboard2/write.do" class="btn btnWrite">글쓰기</a>
             </section>
         </main>
 <jsp:include page="./_footer.jsp"/>

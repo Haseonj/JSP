@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.co.jboard2.service.ArticleService;
+import kr.co.jboard2.vo.ArticleVO;
 
 @WebServlet("/view.do")
 public class ViewController extends HttpServlet {
@@ -27,7 +28,11 @@ public class ViewController extends HttpServlet {
 		String no = req.getParameter("no");
 		String pg = req.getParameter("pg");
 		
-		//service.selectArticle(no, pg);
+		service.updateArticleHit(no);
+		ArticleVO vo = service.selectArticle(no);
+		
+		req.setAttribute("vo", vo);
+		req.setAttribute("pg", pg);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/view.jsp");
 		dispatcher.forward(req, resp);

@@ -13,19 +13,25 @@ public enum ArticleService {
 	private ArticleService() {
 		dao = new ArticleDAO();
 	}
+	
+	public void insertArticle(ArticleVO vo) {
+		dao.insertArticle(vo);
+	}
 
 	public int selectCountTotal () {
 		return dao.selectCountTotal();
 	}
 	
-	public void selectArticle() {
-		dao.selectArticle();
+	public ArticleVO selectArticle(String no) {
+		return dao.selectArticle(no);
 	}
 	
 	public List<ArticleVO> selectArticles(int limitStart) {
 		return dao.selectArticles(limitStart);
 	}
 	
-	
+	public void updateArticleHit(String no) {
+		dao.updateArticleHit(no);
+	}
 	
 }

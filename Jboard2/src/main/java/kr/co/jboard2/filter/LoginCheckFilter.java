@@ -51,6 +51,8 @@ public class LoginCheckFilter implements Filter{
 			HttpSession sess = req.getSession();
 			UserVO sessUser = (UserVO)sess.getAttribute("sessUser");
 			
+			request.setAttribute("sessUser", sessUser);
+			
 			if(sessUser == null) {
 				((HttpServletResponse) response).sendRedirect("/Jboard2/user/login.do");
 				return;
