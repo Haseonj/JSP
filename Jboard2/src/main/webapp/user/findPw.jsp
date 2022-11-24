@@ -50,8 +50,8 @@
                     <td>
                         <div>
                             <input type="email" name="email" placeholder="이메일 입력"/>
-                            <span class="emailResult"></span>
-                            <button type="button" class="btnAuth" id="btnEmailAuth">인증번호 받기</button>
+                            <span class="resultEmail"></span>
+                            <button type="button" class="btnAuth" id="btnEmail">인증번호 받기</button>
                         </div>
                         <div>
                             <input type="text" name="auth"  placeholder="인증번호 입력"/>

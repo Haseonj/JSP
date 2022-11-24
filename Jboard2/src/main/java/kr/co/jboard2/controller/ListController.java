@@ -1,6 +1,7 @@
 package kr.co.jboard2.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -28,6 +29,7 @@ public class ListController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String pg = req.getParameter("pg");
+		
 		
 		int limitStart = 0;
 		int currentPage = 1;
@@ -62,10 +64,17 @@ public class ListController extends HttpServlet {
 		
 		pageStartNum = total - limitStart;
 		
-
 		List<ArticleVO> articles = service.selectArticles(limitStart);
 		
 		req.setAttribute("articles", articles);
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("total", total);
+		req.setAttribute("lastPageNum", lastPageNum);
+		req.setAttribute("pageGroupCurrent", pageGroupCurrent);
+		req.setAttribute("pageGroupStart", pageGroupStart);
+		req.setAttribute("pageGroupEnd", pageGroupEnd);
+		req.setAttribute("pageStartNum", pageStartNum+1);
+		req.setAttribute("pg", pg);
 				
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/list.jsp");
 		dispatcher.forward(req, resp);

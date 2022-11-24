@@ -18,8 +18,14 @@ public enum ArticleService {
 		return dao.selectCountTotal();
 	}
 	
+	public void selectArticle() {
+		dao.selectArticle();
+	}
+	
 	public List<ArticleVO> selectArticles(int limitStart) {
 		return dao.selectArticles(limitStart);
 	}
+	
+	
 	
 }

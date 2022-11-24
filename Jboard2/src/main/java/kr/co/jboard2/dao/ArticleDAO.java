@@ -38,7 +38,7 @@ public class ArticleDAO extends DBHelper {
 	public List<ArticleVO> selectArticles(int limitStart) {
 		List<ArticleVO> articles = new ArrayList<>();
 		try {
-			logger.info("selectArticle...");
+			logger.info("selectArticles...");
 			conn = getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLES);
 			psmt.setInt(1, limitStart);
@@ -68,4 +68,13 @@ public class ArticleDAO extends DBHelper {
 		return articles;
 	}
 	
+	public void selectArticle() {
+		try {
+			logger.info("selectArticle...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_ARTICLE);
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 }

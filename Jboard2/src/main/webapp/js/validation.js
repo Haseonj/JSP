@@ -17,6 +17,8 @@ let isNameOk 	= false;
 let isNickOk 	= false;
 let isEmailOk	= false;
 let isEmailAuthOk = false;
+let isEmailAuthCodeOk = false;
+let receivedCode = false;
 let isHpOk 		= false;
 
 
@@ -162,54 +164,82 @@ $(function(){
 		
 	});
 	
-	//  이메일 검사하기
+	//  이메일 유효성 검사
 	$('input[name=email]').focusout(function(){
 		
 		let email = $(this).val();
 		
-		if(email.match(reEmail)){
-			isEmailOk = true;
-			$('.emailResult').text('');
-		}else{
+		if(!email.match(reEmail)){
 			isEmailOk = false;
-			$('.emailResult').css('color','red').text('유효하지 않은 이메일입니다.');
+			$('.resultEmail').css('color','red').text('유효하지 않은 이메일입니다.');
+		}else{
+			isEmailOk = true;
+			$('.resultEmail').text('');
 		}
 		
 	});
 	
-	// 이메일 인증 검사
-	let emailCode = 0;
+	// 이메일 인증코드 발송 클릭
 		
-	$('#btnEmailAuth').click(function(){
+	$('#btnEmail').click(function(){
+		
+		$(this).hide();
 		let email = $('input[name=email]').val();
 		
-		$.ajax({
-			url: '/Jboard2/user/emailAuth.do',
-			method: 'get',
-			data: {"email":email},
-			dataType: 'json',
-			success: function(data){
-				if(data.status == 1){
-					// 메일 발송 성공
-					emailCode = data.code;
-					
-					$('.emailResult').text('인증코드를 전송 했습니다. 이메일을 확인 하세요.');
-					$('.auth').show();
-				}else{
-					// 메일 발송 성공
-					$('.emailResult').text('이메일을 실패했습니다. 이메일을 확인 후 다시 하시기 바랍니다.');
+		if(email == ''){
+			alert('이메일을 입력 하세요.');
+			return;
+		}
+		
+		if(isEmailAuthOk){
+			console.log('here2');
+			return;	
+		}
+		
+		isEmailAuthOk = true;
+		
+		$('.resultEmail').text('인증코드 전송 중 입니다. 잠시만 기다리세요...');
+		console.log('here3');
+		
+		setTimeout(function(){
+			console.log('here4');
+			$.ajax({
+				url: '/Jboard2/user/emailAuth.do',
+				method: 'get',
+				data: {"email":email},
+				dataType: 'json',
+				success: function(data){
+					if(data.status > 0){
+						// 메일 발송 성공
+						console.log('here5');
+						isEmailAuthOk = true;
+						$('.resultEmail').text('인증코드를 전송 했습니다. 이메일을 확인 하세요.');
+						$('.auth').show();
+						receivedCode = data.code;
+						
+					}else{
+						// 메일 발송 실패
+						console.log('here5');
+						isEmailAuthOk = false; 
+						alert('메일전송이 실패 했습니다.\n다시 시도 하시기 바랍니다.');
+					}
 				}
-			}
-		});
+			});
+		}, 1000);		
 	});
 	
-	// 이메일 인증코드 확인
+	// 이메일 인증코드 확인 버튼
 	$('#btnEmailConfirm').click(function(){
 		let code = $('input[name=auth]').val();
 		
-		if(code == emailCode){
-			isEmailAuthOk = true;
-			$('.emailResult').text('이메일이 인증 되었습니다.');
+		if(code == receivedCode){
+			isEmailAuthCodeOk = true;
+			$('input[name=email]').attr('readonly', true);
+			$('.resultEmail').text('이메일이 인증 되었습니다.');
+			$('.auth').hide();
+		}else{
+			isEmailAuthCodeOk = false;
+			alert('인증코드가 틀립니다.\n다시 확인 하십시오.');
 		}
 	});
 	
@@ -261,9 +291,9 @@ $(function(){
 			return false;	
 		}
 		
-		// 이메일 인증 검증
-		if(!isEmailAuthOk){
-			alert('이메일을 인증 하셔야 합니다.');
+		// 이메일 인증코드 검증
+		if(!isEmailAuthCodeOk){
+			alert('이메일을 인증을 수행 하십시오.');
 			return false;	
 		}
 		
