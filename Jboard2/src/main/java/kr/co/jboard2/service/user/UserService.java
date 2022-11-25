@@ -45,8 +45,8 @@ public enum UserService {
 		return dao.selectUserForFindPw(uid, email);
 	}
 	
-	public UserVO selecUserBySessId(String sessId) {
-		return dao.selecUserBySessId(sessId);
+	public UserVO selectUserBySessId(String sessId) {
+		return dao.selectUserBySessId(sessId);
 	}
 	
 	public void selectUsers() {}

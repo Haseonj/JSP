@@ -123,7 +123,7 @@ public class UserDAO extends DBHelper {
 		return vo;
 	}
 	
-	public UserVO selecUserBySessId(String sessId) {
+	public UserVO selectUserBySessId(String sessId) {
 		UserVO vo = null;
 		try {
 			logger.info("selecUserBySessId...");
