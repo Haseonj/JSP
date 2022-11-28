@@ -40,16 +40,17 @@ public class Sql {
 	
 	// board
 	public static final String INSERT_ARTICLE = "INSERT INTO `board_article` SET "
+												+ "`cate`=?, "
 												+ "`title`=?,"
-												+ "`content`=?,"
-												+ "`file`=?,"
-												+ "`uid`=?,"
-												+ "`regip`=?,"
+												+ "`content`=?, "
+												+ "`file`=?, "
+												+ "`uid`=?, "
+												+ "`regip`=?, "
 												+ "`rdate`=NOW()";
 	
 	public static final String INSERT_FILE = "INSERT INTO `board_file` SET "
-											+ "`parent`=?,"
-											+ "`newName`=?,"
+											+ "`parent`=?, "
+											+ "`newName`=?, "
 											+ "`oriName`=?";
 	
 	public static final String INSERT_COMMENT = "INSERT INTO `board_article` SET "
@@ -63,17 +64,17 @@ public class Sql {
 	public static final String SELECT_MAX_NO = "SELECT MAX(`no`) FROM `board_article`";
 	
 	// parent = 0 은 댓글을 카운트 하지 않고 목록에 출력하기 위해서
-	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` WHERE `parent`=0";
+	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` WHERE `parent`=0 AND `cate`=?";
 	
 	public static final String SELECT_COUNT_TOTAL_FOR_SEARCH = "SELECT COUNT(`no`) FROM `board_article` AS a "
 																+ "JOIN `board_user` AS b ON a.uid = b.uid "
-																+ "WHERE `parent`=0 AND (`title` LIKE ? OR `nick` LIKE ?)";
+																+ "WHERE `parent`=0 AND (`title` LIKE ? OR `nick` LIKE ?) AND `cate`=?";
 	
 	// 목록에 댓글과 같이 출력되는것을 방지
 	public static final String SELECT_ARTICLES = "SELECT a.*, b.nick FROM `board_article` AS a "
 												+ "JOIN `board_user` AS b "
 												+ "ON a.uid = b.uid "
-												+ "WHERE `parent`=0 "
+												+ "WHERE `parent`=0 AND `cate`=?"
 												+ "ORDER BY `no` DESC "
 												+ "LIMIT ?, 10";
 	

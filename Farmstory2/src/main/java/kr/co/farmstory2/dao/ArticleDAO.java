@@ -17,7 +17,7 @@ public class ArticleDAO extends DBHelper {
 	public int insertArticle(ArticleVO vo) {
 		int parent = 0;
 		try {
-			logger.info("insertArticle...0");
+			logger.info("insertArticle...");
 			conn = getConnection();
 			conn.setAutoCommit(false);
 			
@@ -25,11 +25,12 @@ public class ArticleDAO extends DBHelper {
 			psmt = conn.prepareStatement(Sql.INSERT_ARTICLE);
 			stmt = conn.createStatement();
 			
-			psmt.setString(1, vo.getTitle());
-			psmt.setString(2, vo.getContent());
-			psmt.setInt(3, vo.getFname() == null ? 0 : 1);
-			psmt.setString(4, vo.getUid());
-			psmt.setString(5, vo.getRegip());
+			psmt.setString(1, vo.getCate());
+			psmt.setString(2, vo.getTitle());
+			psmt.setString(3, vo.getContent());
+			psmt.setInt(4, vo.getFname() == null ? 0 : 1);
+			psmt.setString(5, vo.getUid());
+			psmt.setString(6, vo.getRegip());
 			
 			psmt.executeUpdate();
 			rs = stmt.executeQuery(Sql.SELECT_MAX_NO);
@@ -44,7 +45,6 @@ public class ArticleDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 		
-		logger.info("insertArticle...1 : " + parent);
 		return parent;
 	}
 	
@@ -65,7 +65,7 @@ public class ArticleDAO extends DBHelper {
 		}
 	}
 	
-	public int selectCountTotal(String search) {
+	public int selectCountTotal(String search, String cate) {
 		int total = 0;
 		
 		try {
@@ -73,12 +73,14 @@ public class ArticleDAO extends DBHelper {
 			conn = getConnection();
 			
 			if(search == null) {
-				stmt = conn.createStatement();
-				rs = stmt.executeQuery(Sql.SELECT_COUNT_TOTAL);
+				psmt = conn.prepareStatement(Sql.SELECT_COUNT_TOTAL);
+				psmt.setString(1, cate);
+				rs = psmt.executeQuery();
 			}else {
 				psmt = conn.prepareStatement(Sql.SELECT_COUNT_TOTAL_FOR_SEARCH);
 				psmt.setString(1, "%"+search+"%");
 				psmt.setString(2, "%"+search+"%");
+				psmt.setString(3, cate);
 				rs = psmt.executeQuery();
 			}
 			if(rs.next()) {
@@ -93,13 +95,14 @@ public class ArticleDAO extends DBHelper {
 		return total;
 	}
 	
-	public List<ArticleVO> selectArticles(int start) {
+	public List<ArticleVO> selectArticles(String cate, int start) {
 		List<ArticleVO> articles = new ArrayList<>();
 		try {
 			logger.info("selectArticles...");
 			conn = getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLES);
-			psmt.setInt(1, start);
+			psmt.setString(1, cate);
+			psmt.setInt(2, start);
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {

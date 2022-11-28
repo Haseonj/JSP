@@ -9,17 +9,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.farmstory2.service.ArticleService;
+import kr.co.farmstory2.vo.ArticleVO;
+
 @WebServlet("/board/view.do")
 public class ViewController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
-	
+	private ArticleService service = ArticleService.INSTANCE;
 	@Override
 	public void init() throws ServletException {
 	}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String no = req.getParameter("no");
+		String pg = req.getParameter("pg");
+		String group = req.getParameter("group");
+		String cate = req.getParameter("cate");
+		
+		ArticleVO vo = service.selectArticle(no);
+		
+		req.setAttribute("no", no);
+		req.setAttribute("pg", pg);
+		req.setAttribute("group", group);
+		req.setAttribute("cate", cate);
+		req.setAttribute("vo", vo);
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/view.jsp");
 		dispatcher.forward(req, resp);
 	}

@@ -8,18 +8,18 @@
 	                        <caption>글보기</caption>
 	                        <tr>
 	                            <th>제목</th>
-	                            <td><input type="text" name="title" readonly value="${title}"></td>
+	                            <td><input type="text" name="title" readonly value="${vo.title}"></td>
 	                        </tr>
 	                        <tr>
 	                            <th>파일</th>    
 	                            <td>
-	                                <a href="/Farmstory1/Board/proc/download.jsp?parent=${no}">${oriName}</a>&nbsp;<span>${download}</span>회 다운로드
+	                                <a href="/Farmstory1/Board/download.do?parent=${no}">${vo.oriName}</a>&nbsp;<span>${vo.download}</span>회 다운로드
 	                            </td>
 	                        </tr>
 	                        <tr>   
 	                            <th>내용</th>
 	                            <td>
-	                                <textarea name="content" readonly>${content}</textarea>
+	                                <textarea name="content" readonly>${vo.content}</textarea>
 	                            </td>
 	                        </tr>
 	                    </table>
