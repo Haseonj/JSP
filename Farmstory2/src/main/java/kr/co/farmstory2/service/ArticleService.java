@@ -59,6 +59,14 @@ public enum ArticleService {
 		dao.updateArticleHit(no);
 	}
 	
+	public void deleteArticle(String no) {
+		dao.deleteArticle(no);
+	}
+	
+	public void deleteFile(String no) {
+		dao.deleteFile(no);
+	}
+	
 	// 추가적인 서비스 로직
 	public MultipartRequest uploadFile(HttpServletRequest req, String path) throws IOException {
 		int maxSize = 1024 * 1024 * 10;

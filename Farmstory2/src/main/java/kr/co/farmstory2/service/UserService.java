@@ -89,7 +89,7 @@ public enum UserService {
 		String sender = "gktjswn11@gmail.com";
 		String password = "sftkqrcvnieumxhj";
 		
-		String title = "Jbaord2 인증코드 입니다.";
+		String title = "Farmstory2 인증코드 입니다.";
 		String content = "<h1>인증코드는 "+code+" 입니다.</h1>";
 		
 		// Gmail SMTP 서버 설정

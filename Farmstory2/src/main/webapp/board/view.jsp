@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/_header.jsp"/>
 <jsp:include page="./_${group}.jsp"/>
 	        <main id="board">
@@ -10,12 +11,14 @@
 	                            <th>제목</th>
 	                            <td><input type="text" name="title" readonly value="${vo.title}"></td>
 	                        </tr>
+	                        <c:if test="${vo.file > 0}">
 	                        <tr>
 	                            <th>파일</th>    
 	                            <td>
 	                                <a href="/Farmstory1/Board/download.do?parent=${no}">${vo.oriName}</a>&nbsp;<span>${vo.download}</span>회 다운로드
 	                            </td>
 	                        </tr>
+	                        </c:if>
 	                        <tr>   
 	                            <th>내용</th>
 	                            <td>

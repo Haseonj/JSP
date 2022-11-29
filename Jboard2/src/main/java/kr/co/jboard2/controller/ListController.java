@@ -29,9 +29,11 @@ public class ListController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String pg = req.getParameter("pg");
+		String search = req.getParameter("search");
 		
 		
-		int limitStart = 0;
+		
+		int start = 0;
 		int currentPage = 1;
 		int total = 0;
 		int lastPageNum = 0;
@@ -40,7 +42,7 @@ public class ListController extends HttpServlet {
 		int pageGroupEnd = 0;
 		int pageStartNum = 0;
 		
-		total = service.selectCountTotal();
+		total = service.selectCountTotal(search);
 		
 		if(total % 10 == 0) {
 			lastPageNum = (total / 10);
@@ -52,7 +54,7 @@ public class ListController extends HttpServlet {
 			currentPage = Integer.parseInt(pg);
 		}
 		
-		limitStart = (currentPage - 1) * 10;
+		start = (currentPage - 1) * 10;
 		
 		pageGroupCurrent = (int)Math.ceil(currentPage / 10.0);
 		pageGroupStart = (pageGroupCurrent - 1) * 10 + 1;
@@ -62,9 +64,15 @@ public class ListController extends HttpServlet {
 			pageGroupEnd = lastPageNum;
 		}
 		
-		pageStartNum = total - limitStart;
+		pageStartNum = total - start;
+		List<ArticleVO> articles = null;
 		
-		List<ArticleVO> articles = service.selectArticles(limitStart);
+		if(search == null) {
+			articles = service.selectArticles(start);
+		}else {
+			articles = service.selectArticlesByKeyword(search, start);
+		}
+		
 		
 		req.setAttribute("articles", articles);
 		req.setAttribute("currentPage", currentPage);
@@ -74,7 +82,7 @@ public class ListController extends HttpServlet {
 		req.setAttribute("pageGroupStart", pageGroupStart);
 		req.setAttribute("pageGroupEnd", pageGroupEnd);
 		req.setAttribute("pageStartNum", pageStartNum+1);
-		req.setAttribute("pg", pg);
+		req.setAttribute("search", search);
 				
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/list.jsp");
 		dispatcher.forward(req, resp);

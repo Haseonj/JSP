@@ -2,7 +2,6 @@ package kr.co.farmstory2.controller.board;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.co.farmstory2.service.ArticleService;
-import kr.co.farmstory2.vo.ArticleVO;
 
-@WebServlet("/board/view.do")
-public class ViewController extends HttpServlet{
+@WebServlet("/board/delete.do")
+public class DeleteController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private ArticleService service = ArticleService.INSTANCE;
+	
 	@Override
 	public void init() throws ServletException {
 	}
@@ -29,17 +28,11 @@ public class ViewController extends HttpServlet{
 		String group = req.getParameter("group");
 		String cate = req.getParameter("cate");
 		
-		ArticleVO vo = service.selectArticle(no);
-		service.updateArticleHit(no);
+		service.deleteArticle(no);
+		service.deleteFile(no);
 		
-		req.setAttribute("no", no);
-		req.setAttribute("pg", pg);
-		req.setAttribute("group", group);
-		req.setAttribute("cate", cate);
-		req.setAttribute("vo", vo);
+		resp.sendRedirect("/Farmstory2/board/list.do?pg="+pg+"&group="+group+"&cate="+cate);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/view.jsp");
-		dispatcher.forward(req, resp);
 	}
 	
 	@Override

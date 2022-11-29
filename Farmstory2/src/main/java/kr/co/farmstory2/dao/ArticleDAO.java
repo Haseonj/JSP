@@ -230,4 +230,33 @@ public class ArticleDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 	}
+	
+	public void deleteArticle(String no) {
+		try {
+			logger.info("deleteArticle...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.DELETE_ARTICLE);
+			psmt.setString(1, no);
+			psmt.setString(2, no);
+			psmt.executeUpdate();
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void deleteFile(String no) {
+		try {
+			logger.info("deleteFile...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.DELETE_FILE);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 }
