@@ -65,6 +65,10 @@ public class Sql {
 	// parent = 0 은 댓글을 카운트 하지 않고 목록에 출력하기 위해서
 	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` WHERE `parent`=0";
 	
+	public static final String SELECT_COUNT_TOTAL_FOR_SEARCH = "SELECT COUNT(`no`) FROM `board_article` AS a "
+																+ "JOIN `board_user` AS b ON a.uid = b.uid "
+																+ "WHERE `parent`=0 AND (`title` LIKE ? OR `nick` LIKE ?)";
+	
 	// 목록에 댓글과 같이 출력되는것을 방지
 	public static final String SELECT_ARTICLES = "SELECT a.*, b.nick FROM `board_article` AS a "
 												+ "JOIN `board_user` AS b "
@@ -72,6 +76,15 @@ public class Sql {
 												+ "WHERE `parent`=0 "
 												+ "ORDER BY `no` DESC "
 												+ "LIMIT ?, 10";
+	
+	public static final String SELECT_ARTICLES_BY_KEYWORD = "SELECT * FROM `board_article` AS a "
+															+ "JOIN `board_user` AS b ON a.uid = b.uid "
+															+ "WHERE "
+															+ "`parent`=0 AND (`title` LIKE ? OR `nick` LIKE ?) "
+															+ "ORDER BY "
+															+ "`no` DESC "
+															+ "LIMIT ?, 10";
+															
 	
 	// 이번 쿼리의 경우는 파일을 첨부 하지 않았을 경우에도 출력이 되어야 하는데 inner join은 a 와 b의 교집합만 사용하는 쿼리
 	// 이기 때문에 파일 미첨부 데이터는 출력하지 않는다.

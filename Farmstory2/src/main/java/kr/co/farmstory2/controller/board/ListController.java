@@ -51,7 +51,12 @@ public class ListController extends HttpServlet {
 		int start = service.getStartNum(currentPage);
 		
 		// 글 가져오기
-		List<ArticleVO> articles = service.selectArticles(cate, start);
+		List<ArticleVO> articles = null;
+		if(search == null) {
+			articles = service.selectArticles(cate, start);
+		}else {
+			articles = service.selectArticlesByKeyword(search, start);
+		}
 		
 		req.setAttribute("articles", articles);
 		req.setAttribute("currentPage", currentPage);
@@ -59,6 +64,7 @@ public class ListController extends HttpServlet {
 		req.setAttribute("pageGroupStart", result[0]);
 		req.setAttribute("pageGroupEnd", result[1]);
 		req.setAttribute("pageStartNum", pageStartNum+1);
+		req.setAttribute("search", search);
 		
 		req.setAttribute("group", group);
 		req.setAttribute("cate", cate);

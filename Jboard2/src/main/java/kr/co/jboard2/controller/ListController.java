@@ -1,7 +1,6 @@
 package kr.co.jboard2.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -29,15 +28,19 @@ public class ListController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String pg = req.getParameter("pg");
+		String search = req.getParameter("search");
 		
 		// 현재 페이지 번호
 		int currentPage = service.getCurrentpage(pg);
 		
 		// 전체 페이지 갯수
-		int total = service.selectCountTotal();
+		int total = service.selectCountTotal(search);
 		
 		// 마지막 페이지 번호
 		int lastPageNum = service.getLastPageNum(total);
+		
+		
+		total = service.selectCountTotal(search);
 		
 		// 페이지 그룹 start, end 번호
 		int[] result = service.getPageGroupNum(currentPage, lastPageNum);
@@ -50,6 +53,7 @@ public class ListController extends HttpServlet {
 		
 		// 글 가져오기
 		List<ArticleVO> articles = service.selectArticles(start);
+
 		
 		req.setAttribute("articles", articles);
 		req.setAttribute("currentPage", currentPage);
@@ -57,6 +61,7 @@ public class ListController extends HttpServlet {
 		req.setAttribute("pageGroupStart", result[0]);
 		req.setAttribute("pageGroupEnd", result[1]);
 		req.setAttribute("pageStartNum", pageStartNum+1);
+		req.setAttribute("search", search);
 				
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/list.jsp");
 		dispatcher.forward(req, resp);

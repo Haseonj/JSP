@@ -36,8 +36,8 @@ public enum ArticleService {
 		dao.insertFile(parent, newName, fname);
 	}
 
-	public int selectCountTotal () {
-		return dao.selectCountTotal();
+	public int selectCountTotal (String search) {
+		return dao.selectCountTotal(search);
 	}
 	
 	public ArticleVO selectArticle(String no) {
@@ -50,6 +50,10 @@ public enum ArticleService {
 	
 	public List<ArticleVO> selectArticles(int start) {
 		return dao.selectArticles(start);
+	}
+	
+	public List<ArticleVO> selectArticlesByKeyword(String keyword, int start) {
+		return dao.selectArticlesByKeyword(keyword, start);
 	}
 	
 	public void updateArticle(String title, String content, String no) {

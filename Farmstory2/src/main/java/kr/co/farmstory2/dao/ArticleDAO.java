@@ -1,5 +1,6 @@
 package kr.co.farmstory2.dao;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,50 @@ public class ArticleDAO extends DBHelper {
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
+	}
+	
+	public ArticleVO insertComment(ArticleVO vo) {
+		ArticleVO article = null;
+		int result = 0;
+		try {
+			logger.info("insertComment...");
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			psmt1 = conn.prepareStatement(Sql.INSERT_COMMENT);
+			psmt2 = conn.prepareStatement(Sql.UPDATE_ARTICLE_COMMENT_PLUS);
+			stmt = conn.createStatement();
+			
+			psmt1.setInt(1, vo.getParent());
+			psmt1.setString(2, vo.getContent());
+			psmt1.setString(3, vo.getUid());
+			psmt1.setString(4, vo.getRegip());
+			psmt2.setInt(1, vo.getParent());
+			
+			psmt1.executeUpdate();
+			psmt2.executeUpdate();
+			rs = stmt.executeQuery(Sql.SELECT_COMMENT_LATEST);
+			
+			conn.commit();
+			
+			
+			if(rs.next()) {
+				article = new ArticleVO();
+				article.setNo(rs.getInt(1));
+				article.setParent(rs.getInt(2));
+				article.setContent(rs.getString(6));
+				article.setRdate(rs.getString(11).substring(2, 10));
+				article.setNick(rs.getString(12));
+			}
+			
+			close();
+			psmt1.close();
+			psmt2.close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
+		return article;
 	}
 	
 	public int selectCountTotal(String search, String cate) {
@@ -201,6 +246,40 @@ public class ArticleDAO extends DBHelper {
 		return vo;
 	}
 	
+	public List<ArticleVO> selectComments(String parent) {
+		List<ArticleVO> comments = new ArrayList<>();
+		
+		try {
+			logger.info("selectComments...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_COMMENTS);
+			psmt.setString(1, parent);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVO comment = new ArticleVO();
+				comment.setNo(rs.getInt(1));
+				comment.setParent(rs.getInt(2));
+				comment.setComment(rs.getInt(3));
+				comment.setCate(rs.getString(4));
+				comment.setTitle(rs.getString(5));
+				comment.setContent(rs.getString(6));
+				comment.setFile(rs.getInt(7));
+				comment.setHit(rs.getInt(8));
+				comment.setUid(rs.getString(9));
+				comment.setRegip(rs.getString(10));
+				comment.setRdate(rs.getString(11).substring(2, 10));
+				comment.setNick(rs.getString(12));
+				
+				comments.add(comment);
+			}
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return comments;
+	}
+	
 	public void updateArticle(String title, String content, String no) {
 		try {
 			logger.info("updateArticle...");
@@ -229,5 +308,74 @@ public class ArticleDAO extends DBHelper {
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
+	}
+	
+	public int updateComment(String content, String no) {
+		int result = 0;
+		try {
+			logger.info("updateComment...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_COMMENT);
+			psmt.setString(1, content);
+			psmt.setString(2, no);
+			result = psmt.executeUpdate();
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
+	public void deleteArticle(String no) {
+		try {
+			logger.info("deleteArticle...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.DELETE_ARTICLE);
+			psmt.setString(1, no);
+			psmt.setString(2, no);
+			psmt.executeUpdate();
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void deleteFile(String no) {
+		try {
+			logger.info("deleteFile...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.DELETE_FILE);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public int deleteComment(String no, String parent) {
+		int result = 0;
+		try {
+			logger.info("deleteComment...");
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			psmt1 = conn.prepareStatement(Sql.DELETE_COMMENT);
+			psmt2 = conn.prepareStatement(Sql.UPDATE_ARTICLE_COMMENT_MINUS);
+			psmt1.setString(1, no);
+			psmt2.setString(1, parent);
+			result = psmt1.executeUpdate();
+			psmt2.executeUpdate();
+			
+			conn.commit();
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
 	}
 }

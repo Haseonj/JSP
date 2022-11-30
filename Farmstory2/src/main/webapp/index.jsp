@@ -132,8 +132,8 @@
                         </p>
                     </div>
                     <div class="btns">
-                        <a href="#"><img src="./img/main_sub2_cs_bt1.png" alt="1:1 고객문의"></a>
-                        <a href="#"><img src="./img/main_sub2_cs_bt2.png" alt="자주묻는질문"></a>
+                        <a href="/Farmstory2/board/list.do?group=community&cate=qna&pg=1"><img src="./img/main_sub2_cs_bt1.png" alt="1:1 고객문의"></a>
+                        <a href="/Farmstory2/board/list.do?group=community&cate=faq&pg=1"><img src="./img/main_sub2_cs_bt2.png" alt="자주묻는질문"></a>
                         <a href="#"><img src="./img/main_sub2_cs_bt3.png" alt="배송조회"></a>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 package kr.co.jboard2.dao;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,15 +66,22 @@ public class ArticleDAO extends DBHelper {
 		}
 	}
 	
-	public int selectCountTotal() {
+	public int selectCountTotal(String search) {
 		int total = 0;
 		
 		try {
 			logger.info("selectCountTotal...");
 			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(Sql.SELECT_COUNT_TOTAL);
 			
+			if(search == null) {
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(Sql.SELECT_COUNT_TOTAL);
+			}else {
+				psmt = conn.prepareStatement(Sql.SELECT_COUNT_TOTAL_FOR_SEARCH);
+				psmt.setString(1, "%"+search+"%");
+				psmt.setString(2, "%"+search+"%");
+				rs = psmt.executeQuery();
+			}
 			if(rs.next()) {
 				total = rs.getInt(1);
 			}
@@ -93,6 +101,42 @@ public class ArticleDAO extends DBHelper {
 			conn = getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLES);
 			psmt.setInt(1, start);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVO vo = new ArticleVO();
+				vo.setNo(rs.getInt(1));
+				vo.setParent(rs.getInt(2));
+				vo.setComment(rs.getInt(3));
+				vo.setCate(rs.getString(4));
+				vo.setTitle(rs.getString(5));
+				vo.setContent(rs.getString(6));
+				vo.setFile(rs.getInt(7));
+				vo.setHit(rs.getInt(8));
+				vo.setUid(rs.getString(9));
+				vo.setRegip(rs.getString(10));
+				vo.setRdate(rs.getString(11));
+				vo.setNick(rs.getString(12));
+				
+				articles.add(vo);
+			}
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return articles;
+	}
+	
+	public List<ArticleVO> selectArticlesByKeyword(String keyword, int start) {
+		List<ArticleVO> articles = new ArrayList<>();
+		try {
+			logger.info("selectArticlesByKeyword...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_ARTICLES_BY_KEYWORD);
+			psmt.setString(1, "%"+keyword+"%");
+			psmt.setString(2, "%"+keyword+"%");
+			psmt.setInt(3, start);
+			
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {

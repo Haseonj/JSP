@@ -34,6 +34,10 @@ public enum ArticleService {
 	public void insertFile(int parent, String newName, String fname) {
 		dao.insertFile(parent, newName, fname);
 	}
+	
+	public ArticleVO insertComment(ArticleVO vo) {
+		return dao.insertComment(vo);
+	}
 
 	public int selectCountTotal (String search, String cate) {
 		return dao.selectCountTotal(search, cate);
@@ -51,12 +55,32 @@ public enum ArticleService {
 		return dao.selectArticlesByKeyword(keyword, start);
 	}
 	
+	public List<ArticleVO> selectComments(String parent) {
+		return dao.selectComments(parent);
+	}
+	
 	public void updateArticle(String title, String content, String no) {
 		dao.updateArticle(title, content, no);
 	}
 	
 	public void updateArticleHit(String no) {
 		dao.updateArticleHit(no);
+	}
+	
+	public int updateComment(String content, String no) {
+		return dao.updateComment(content, no);
+	}
+	
+	public void deleteArticle(String no) {
+		dao.deleteArticle(no);
+	}
+	
+	public void deleteFile(String no) {
+		dao.deleteFile(no);
+	}
+	
+	public int deleteComment(String no, String parent) {
+		return dao.deleteComment(no, parent);
 	}
 	
 	// 추가적인 서비스 로직

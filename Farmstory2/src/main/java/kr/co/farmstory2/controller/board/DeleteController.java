@@ -1,18 +1,20 @@
-package kr.co.farmstory2.controller;
+package kr.co.farmstory2.controller.board;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/index.do")
-public class IndexController extends HttpServlet{
+import kr.co.farmstory2.service.ArticleService;
+
+@WebServlet("/board/delete.do")
+public class DeleteController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private ArticleService service = ArticleService.INSTANCE;
 	
 	@Override
 	public void init() throws ServletException {
@@ -20,8 +22,17 @@ public class IndexController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-		dispatcher.forward(req, resp);
+		
+		String no = req.getParameter("no");
+		String pg = req.getParameter("pg");
+		String group = req.getParameter("group");
+		String cate = req.getParameter("cate");
+		
+		service.deleteArticle(no);
+		service.deleteFile(no);
+		
+		resp.sendRedirect("/Farmstory2/board/list.do?pg="+pg+"&group="+group+"&cate="+cate);
+		
 	}
 	
 	@Override
