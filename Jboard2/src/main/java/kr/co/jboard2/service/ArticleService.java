@@ -16,6 +16,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.co.jboard2.dao.ArticleDAO;
 import kr.co.jboard2.vo.ArticleVO;
+import kr.co.jboard2.vo.FileVO;
 
 public enum ArticleService {
 	
@@ -43,12 +44,20 @@ public enum ArticleService {
 		return dao.selectArticle(no);
 	}
 	
-	public List<ArticleVO> selectArticles(int limitStart) {
-		return dao.selectArticles(limitStart);
+	public FileVO selectFile(String parent) {
+		return dao.selectFile(parent);
+	}
+	
+	public List<ArticleVO> selectArticles(int start) {
+		return dao.selectArticles(start);
 	}
 	
 	public void updateArticle(String title, String content, String no) {
 		dao.updateArticle(title, content, no);
+	}
+	
+	public void updateFileDownload(int fno) {
+		dao.updateFileDownload(fno);
 	}
 	
 	public void updateArticleHit(String no) {
@@ -78,6 +87,57 @@ public enum ArticleService {
 		f1.renameTo(f2);
 		
 		return newName;
+	}
+		
+	public int getCurrentpage(String pg) {
+		int currentPage = 1;
+		
+		if(pg != null) {
+			currentPage = Integer.parseInt(pg);
+		}
+		
+		return currentPage;
+	}
+	
+	public int getLastPageNum(int total) {
+		int lastPageNum = 0;
+		
+		if(total % 10 == 0) {
+			lastPageNum = (total / 10);
+		}else {
+			lastPageNum = (total / 10) + 1;
+		}
+		
+		if(total == 0) {
+			lastPageNum = 1;
+		}
+		
+		return lastPageNum;
+	}
+	
+	public int[] getPageGroupNum(int currentPage, int lastPageNum) {
+		
+		int pageGroupCurrent = (int)Math.ceil(currentPage / 10.0);
+		int pageGroupStart = (pageGroupCurrent - 1) * 10 + 1;
+		int pageGroupEnd = pageGroupCurrent * 10;
+		
+		if(pageGroupEnd > lastPageNum) {
+			pageGroupEnd = lastPageNum;
+		}
+		
+		int[] result = {pageGroupStart, pageGroupEnd};
+		
+		return result;
+	}
+	
+	public int getPageStartNum(int total, int currentPage) {
+		int start = (currentPage - 1) * 10;
+		
+		return total - start;
+	}
+	
+	public int getStartNum (int currentPage) {
+		return (currentPage - 1) * 10;
 	}
 	
 }

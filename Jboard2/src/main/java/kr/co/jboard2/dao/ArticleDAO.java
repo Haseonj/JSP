@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import kr.co.jboard2.db.DBHelper;
 import kr.co.jboard2.db.Sql;
 import kr.co.jboard2.vo.ArticleVO;
+import kr.co.jboard2.vo.FileVO;
 
 public class ArticleDAO extends DBHelper {
 
@@ -17,7 +18,7 @@ public class ArticleDAO extends DBHelper {
 	public int insertArticle(ArticleVO vo) {
 		int parent = 0;
 		try {
-			logger.info("insertArticle...0");
+			logger.info("insertArticle...");
 			conn = getConnection();
 			conn.setAutoCommit(false);
 			
@@ -44,13 +45,12 @@ public class ArticleDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 		
-		logger.info("insertArticle...1 : " + parent);
 		return parent;
 	}
 	
 	public void insertFile(int parent, String newName, String fname) {
 		try {
-			logger.info("insertFile...");
+			logger.info("insertFile... : " + parent);
 			conn = getConnection();
 			psmt = conn.prepareStatement(Sql.INSERT_FILE);
 			psmt.setInt(1, parent);
@@ -86,13 +86,13 @@ public class ArticleDAO extends DBHelper {
 		return total;
 	}
 	
-	public List<ArticleVO> selectArticles(int limitStart) {
+	public List<ArticleVO> selectArticles(int start) {
 		List<ArticleVO> articles = new ArrayList<>();
 		try {
 			logger.info("selectArticles...");
 			conn = getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLES);
-			psmt.setInt(1, limitStart);
+			psmt.setInt(1, start);
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
@@ -155,6 +155,33 @@ public class ArticleDAO extends DBHelper {
 		return vo;
 	}
 	
+	public FileVO selectFile(String parent) {
+		FileVO vo = null;
+		
+		try{
+			logger.info("selectFile...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_FILE);
+			psmt.setString(1, parent);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()){
+				vo = new FileVO();
+				vo.setFno(rs.getInt(1));
+				vo.setParent(rs.getInt(2));
+				vo.setNewName(rs.getString(3));
+				vo.setOriName(rs.getString(4));
+				vo.setDownload(rs.getInt(5));
+			}
+			
+			close();
+			
+		}catch(Exception e){
+			logger.error(e.getMessage());
+		}
+		return vo;
+	}
+	
 	public void updateArticle(String title, String content, String no) {
 		try {
 			logger.info("updateArticle...");
@@ -167,6 +194,20 @@ public class ArticleDAO extends DBHelper {
 
 			close();
 		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void updateFileDownload(int fno) {
+		try {
+			logger.info("updateFileDownload");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_FILE_DOWNLOAD);
+			psmt.setInt(1, fno);
+			psmt.executeUpdate();
+			
+			close();
+		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
 	}
