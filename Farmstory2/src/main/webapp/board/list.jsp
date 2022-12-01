@@ -23,7 +23,7 @@
 	                    <c:forEach var="vo" items="${articles}">
 	                    <tr>
 	                        <td>${pageStartNum = pageStartNum - 1}</td>
-	                        <td><a href="/Farmstory2/board/view.do?no=${vo.no}&pg=${currentPage}&group=${group}&cate=${cate}">${vo.title}[0]</a></td>
+	                        <td><a href="/Farmstory2/board/view.do?no=${vo.no}&pg=${currentPage}&group=${group}&cate=${cate}&search=${search}">${vo.title}[0]</a></td>
 	                        <td>${vo.nick}</td>
 	                        <td>${vo.rdate.substring(2, 10)}</td>
 	                        <td>${vo.hit}</td>
@@ -31,8 +31,8 @@
 	                    </c:forEach>
 	                </table>
 	                <div class="page">
-	                	<c:if test="${pageGroupStart > 1}">
-							<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${pageGroupStart - 1}&search=${search}" class="prev">이전</a>
+                    	<c:if test="${pageGroupStart > 1}">
+						<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${pageGroupStart - 1}&search=${search}" class="prev">이전</a>
 						</c:if>
 						<c:forEach var="i" begin="${pageGroupStart}" end="${pageGroupEnd}">	
 	                    	<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${i}&search=${search}" class="num ${currentPage == i ? 'current' : 'off'}">${i}</a>

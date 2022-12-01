@@ -51,12 +51,20 @@ public enum ArticleService {
 		return dao.selectArticles(cate, start);
 	}
 	
-	public List<ArticleVO> selectArticlesByKeyword(String keyword, int start) {
-		return dao.selectArticlesByKeyword(keyword, start);
+	public List<ArticleVO> selectArticlesByKeyword(String keyword, String cate, int start) {
+		return dao.selectArticlesByKeyword(keyword, cate, start);
 	}
 	
 	public List<ArticleVO> selectComments(String parent) {
 		return dao.selectComments(parent);
+	}
+	
+	public List<ArticleVO> selectLatests(String cate1, String cate2, String cate3) {
+		return dao.selectLatests(cate1, cate2, cate3);
+	}
+	
+	public List<ArticleVO> selectLatest(String tabsCate) {
+		return dao.selectLatest(tabsCate);
 	}
 	
 	public void updateArticle(String title, String content, String no) {
@@ -108,6 +116,7 @@ public enum ArticleService {
 		return newName;
 	}
 	
+	// 현재 페이지 번호
 	public int getCurrentpage(String pg) {
 		int currentPage = 1;
 		
@@ -118,6 +127,7 @@ public enum ArticleService {
 		return currentPage;
 	}
 	
+	// 마지막 페이지 번호
 	public int getLastPageNum(int total) {
 		int lastPageNum = 0;
 		
@@ -134,6 +144,7 @@ public enum ArticleService {
 		return lastPageNum;
 	}
 	
+	// 페이지 그룹 start, end 번호
 	public int[] getPageGroupNum(int currentPage, int lastPageNum) {
 		
 		int pageGroupCurrent = (int)Math.ceil(currentPage / 10.0);
@@ -149,12 +160,14 @@ public enum ArticleService {
 		return result;
 	}
 	
+	// 페이지 시작 번호
 	public int getPageStartNum(int total, int currentPage) {
 		int start = (currentPage - 1) * 10;
 		
 		return total - start;
 	}
 	
+	// 시작 인덱스
 	public int getStartNum (int currentPage) {
 		return (currentPage - 1) * 10;
 	}

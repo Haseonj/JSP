@@ -45,6 +45,7 @@ public class CommentWriteController extends HttpServlet {
 		ArticleVO article = service.insertComment(vo);
 		
 		JsonObject json = new JsonObject();
+		resp.setContentType("application/json;charset=UTF-8");
 		json.addProperty("result", 1);
 		json.addProperty("no", article.getNo());
 		json.addProperty("parent", article.getParent());

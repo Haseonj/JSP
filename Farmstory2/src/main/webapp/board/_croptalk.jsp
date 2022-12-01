@@ -6,9 +6,9 @@
         <aside>
             <img src="/Farmstory2/img/sub_aside_cate3_tit.png" alt="농작물이야기">
             <ul class="lnb">
-                <li class="${cate eq 'story' ? 'on' : 'off'}"><a href="/Farmstory2/board/list.do?group=croptalk&cate=story">농작물이야기</a></li>
-                <li class="${cate eq 'grow' ? 'on' : 'off'}"><a href="/Farmstory2/board/list.do?group=croptalk&cate=grow">텃밭가꾸기</a></li>
-                <li class="${cate eq 'school' ? 'on' : 'off'}"><a href="/Farmstory2/board/list.do?group=croptalk&cate=school">귀농학교</a></li>
+                <li class="${cate eq 'story' ? 'on' : 'off'}"><a href="/Farmstory2/board/list.do?group=croptalk&cate=story&search=">농작물이야기</a></li>
+                <li class="${cate eq 'grow' ? 'on' : 'off'}"><a href="/Farmstory2/board/list.do?group=croptalk&cate=grow&search=">텃밭가꾸기</a></li>
+                <li class="${cate eq 'school' ? 'on' : 'off'}"><a href="/Farmstory2/board/list.do?group=croptalk&cate=school&search=">귀농학교</a></li>
             </ul>
         </aside>
         <article>

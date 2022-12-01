@@ -174,7 +174,7 @@ public class ArticleDAO extends DBHelper {
 		return articles;
 	}
 	
-	public List<ArticleVO> selectArticlesByKeyword(String keyword, int start) {
+	public List<ArticleVO> selectArticlesByKeyword(String keyword, String cate, int start) {
 		List<ArticleVO> articles = new ArrayList<>();
 		try {
 			logger.info("selectArticlesByKeyword...");
@@ -182,7 +182,8 @@ public class ArticleDAO extends DBHelper {
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLES_BY_KEYWORD);
 			psmt.setString(1, "%"+keyword+"%");
 			psmt.setString(2, "%"+keyword+"%");
-			psmt.setInt(3, start);
+			psmt.setString(3, cate);
+			psmt.setInt(4, start);
 			
 			rs = psmt.executeQuery();
 			
@@ -199,7 +200,7 @@ public class ArticleDAO extends DBHelper {
 				vo.setUid(rs.getString(9));
 				vo.setRegip(rs.getString(10));
 				vo.setRdate(rs.getString(11));
-				vo.setNick(rs.getString(12));
+				vo.setNick(rs.getString(15));
 				
 				articles.add(vo);
 			}
@@ -278,6 +279,56 @@ public class ArticleDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 		return comments;
+	}
+	
+	public List<ArticleVO> selectLatests(String cate1, String cate2, String cate3) {
+		List<ArticleVO> latests = new ArrayList<>();
+		try {
+			logger.info("selectLatests...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_LATESTS);
+			psmt.setString(1, cate1);
+			psmt.setString(2, cate2);
+			psmt.setString(3, cate3);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVO vo = new ArticleVO();
+				vo.setNo(rs.getInt(1));
+				vo.setTitle(rs.getString(2));
+				vo.setRdate(rs.getString(3).substring(2, 10));
+				
+				latests.add(vo);
+			}
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return latests;
+	}
+	
+	public synchronized List<ArticleVO> selectLatest(String tabsCate) {
+		List<ArticleVO> latests = new ArrayList<>();
+		try {
+			logger.info("selectLatests(String)...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_LATEST);
+			psmt.setString(1, tabsCate);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVO vo = new ArticleVO();
+				vo.setNo(rs.getInt(1));
+				vo.setTitle(rs.getString(2));
+				vo.setRdate(rs.getString(3).substring(2, 10));
+				
+				latests.add(vo);
+			}
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return latests;
 	}
 	
 	public void updateArticle(String title, String content, String no) {

@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kr.co.farmstory2.service.ArticleService;
 import kr.co.farmstory2.vo.ArticleVO;
 
@@ -18,6 +21,7 @@ public class ListController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private ArticleService service = ArticleService.INSTANCE;
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	public void init() throws ServletException {
@@ -27,9 +31,9 @@ public class ListController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		String group = req.getParameter("group");
+		String search = req.getParameter("search");
 		String cate = req.getParameter("cate");
 		String pg = req.getParameter("pg");
-		String search = req.getParameter("search");
 		
 		
 		// 현재 페이지 번호
@@ -52,10 +56,10 @@ public class ListController extends HttpServlet {
 		
 		// 글 가져오기
 		List<ArticleVO> articles = null;
-		if(search == null) {
+		if(search == "") {
 			articles = service.selectArticles(cate, start);
 		}else {
-			articles = service.selectArticlesByKeyword(search, start);
+			articles = service.selectArticlesByKeyword(search, cate, start);
 		}
 		
 		req.setAttribute("articles", articles);
@@ -63,7 +67,7 @@ public class ListController extends HttpServlet {
 		req.setAttribute("lastPageNum", lastPageNum);
 		req.setAttribute("pageGroupStart", result[0]);
 		req.setAttribute("pageGroupEnd", result[1]);
-		req.setAttribute("pageStartNum", pageStartNum+1);
+		req.setAttribute("pageStartNum", pageStartNum + 1);
 		req.setAttribute("search", search);
 		
 		req.setAttribute("group", group);
