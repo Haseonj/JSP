@@ -29,8 +29,10 @@
 	                    </table>
 	
 	                    <div>
+	                    	<c:if test="${sessUser.uid eq vo.uid}">
 	                        <a href="/Farmstory2/board/delete.do?no=${no}&pg=${pg}&group=${group}&cate=${cate}" class="btn btnRemove">삭제</a>
 	                        <a href="/Farmstory2/board/modify.do?group=${group}&cate=${cate}&pg=${pg}&no=${no}" class="btn btnModify">수정</a>
+	                        </c:if>
 	                        <a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&search=${search}" class="btn btnList">목록</a>
 	
 	                    </div>

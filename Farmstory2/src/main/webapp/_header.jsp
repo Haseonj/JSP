@@ -39,6 +39,7 @@
                 		<a href="/Farmstory2/user/terms.do">회원가입 |</a>
                 	</c:when>
                 	<c:otherwise>
+                		<a href="/Farmstory2/user/checkPw.do">정보수정 |</a>
                 		<a href="/Farmstory2/user/logout.do">로그아웃 |</a>
                 	</c:otherwise>
                 </c:choose>

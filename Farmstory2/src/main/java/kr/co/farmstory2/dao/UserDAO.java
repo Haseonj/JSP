@@ -201,6 +201,29 @@ public class UserDAO extends DBHelper {
 		return result;
 	}
 	
+	public int selectCountEmail(String email) {
+		int result = 0;
+		
+		try{
+			logger.info("selectCountEmail...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_COUNT_EMAIL);
+			psmt.setString(1, email);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt(1);
+			}
+			
+			close();
+			
+		}catch(Exception e){
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
 	public TermsVO selectTerms() {
 		TermsVO vo = null;
 		try {
@@ -218,6 +241,19 @@ public class UserDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 		return vo;
+	}
+	
+	public void updateUser(UserVO vo) {
+		try {
+			logger.info("updateUser...");
+			conn = getConnection();
+			if(vo.setPass == null)) {
+			
+			}
+			psmt = conn.prepareStatement(Sql.UPDATE_USER);
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
 	}
 	
 	public int updateUserPassword(String pass, String uid) {

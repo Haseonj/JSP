@@ -59,7 +59,13 @@ public enum UserService {
 		return dao.selectCountNick(nick);
 	}
 	
-	public void updateUser() {}
+	public int selectCountEmail(String email) {
+		return dao.selectCountEmail(email);
+	}
+	
+	public void updateUser(UserVO vo) {
+		dao.updateUser(vo);
+	}
 	
 	public int updateUserPassword (String pass, String uid) {
 		return dao.updateUserPassword(pass, uid);

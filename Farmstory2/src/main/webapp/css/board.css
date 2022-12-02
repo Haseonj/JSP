@@ -283,10 +283,20 @@
     color: #fff;
 }
 
-.btnAuth, .btnConfirm {
+.btnAuth, .btnConfirm , .btnPwChange, .btnChangeCancel {
     display: inline-block;
     padding: 4px;    
     border: 1px solid #bebebe; 
+    text-align: center;
+}
+
+.btnDelete {
+	display: inline-block;
+    padding: 10px;
+    background-color: #db622a;
+    color: white;
+    border: 1px solid #000;
+    box-sizing: border-box;
     text-align: center;
 }
 
