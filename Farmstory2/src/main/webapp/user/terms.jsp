@@ -23,7 +23,7 @@
             <tr>
                 <td>
                     <textarea name="terms">${vo.terms}</textarea>
-                    <label><input type="checkbox" class="terms">&nbsp;동의합니다.</label>
+                    <label><input type="checkbox" class="terms" readonly>&nbsp;동의합니다.</label>
                 </td>
             </tr>
         </table>
@@ -33,7 +33,7 @@
             <tr>
                 <td>
                     <textarea name="privacy">${vo.privacy}</textarea>
-                    <label><input type="checkbox" class="privacy">&nbsp;동의합니다.</label>
+                    <label><input type="checkbox" class="privacy" readonly>&nbsp;동의합니다.</label>
                 </td>
             </tr>
         </table>

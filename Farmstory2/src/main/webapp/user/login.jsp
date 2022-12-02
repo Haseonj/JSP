@@ -1,5 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/_header.jsp"/>
+<script>
+	let success = "${success}";
+	
+	if(success == "100"){
+		alert('일치하는 회원이 없습니다.\n아이디, 비밀번호를 다시 확인 하십시오.');	
+	}else if(success == "101"){
+		alert('먼저 로그인을 하셔야 합니다.');
+	}else if(success == "201"){
+		alert('회원정보를 수정하여 자동 로그아웃 됩니다.');
+	}else if(success == "300"){
+		alert('회원탈퇴 되었습니다.');
+	}
+</script>
 <main id="user">
     <section class="login">
         <form action="/Farmstory2/user/login.do" method="post">

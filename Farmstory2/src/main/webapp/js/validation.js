@@ -179,8 +179,30 @@ $(function(){
 		
 	});
 	
-	// 이메일 인증코드 발송 클릭
+	// 이메일 중복 검사
+	$('#btnCheckEmail').click(function(){
 		
+		let email = $('input[name=email]').val();
+		
+		$.ajax({
+			url: '/Farmstory2/user/checkEmail.do',
+			method: 'get',
+			data: {"email": email},
+			dataType: 'json',
+			success: function(data){
+				if(data.result == 0){
+					$('#btnCheckEmail').hide();
+					$('#btnEmail').show();
+					isEmailOk = true;
+				}else{
+					alert('이미 사용중인 이메일 입니다.');
+					isEmailOk = false;
+				}
+			}
+		});
+	});
+	
+	// 이메일 인증코드 발송 클릭
 	$('#btnEmail').click(function(){
 		
 		$(this).hide();

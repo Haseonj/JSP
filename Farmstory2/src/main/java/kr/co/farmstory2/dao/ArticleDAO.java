@@ -1,25 +1,35 @@
 package kr.co.farmstory2.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import kr.co.farmstory2.db.DBHelper;
+import kr.co.farmstory2.db.DBCP;
 import kr.co.farmstory2.db.Sql;
 import kr.co.farmstory2.vo.ArticleVO;
 
-public class ArticleDAO extends DBHelper {
+public class ArticleDAO {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	Connection conn = null;
+	PreparedStatement psmt = null;
+	PreparedStatement psmt1 = null;
+	PreparedStatement psmt2 = null;
+	Statement stmt = null;
+	ResultSet rs = null;
 	
 	public int insertArticle(ArticleVO vo) {
 		int parent = 0;
 		try {
 			logger.info("insertArticle...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			conn.setAutoCommit(false);
 			
 			
@@ -41,7 +51,10 @@ public class ArticleDAO extends DBHelper {
 				parent = rs.getInt(1);
 			}
 			
-			close();
+			conn.close();
+			psmt.close();
+			stmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -52,7 +65,7 @@ public class ArticleDAO extends DBHelper {
 	public void insertFile(int parent, String newName, String fname) {
 		try {
 			logger.info("insertFile...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.INSERT_FILE);
 			psmt.setInt(1, parent);
 			psmt.setString(2, newName);
@@ -60,7 +73,8 @@ public class ArticleDAO extends DBHelper {
 			
 			psmt.executeUpdate();
 			
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -71,7 +85,7 @@ public class ArticleDAO extends DBHelper {
 		int result = 0;
 		try {
 			logger.info("insertComment...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			conn.setAutoCommit(false);
 			
 			psmt1 = conn.prepareStatement(Sql.INSERT_COMMENT);
@@ -100,9 +114,11 @@ public class ArticleDAO extends DBHelper {
 				article.setNick(rs.getString(12));
 			}
 			
-			close();
+			conn.close();
 			psmt1.close();
 			psmt2.close();
+			stmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -115,7 +131,7 @@ public class ArticleDAO extends DBHelper {
 		
 		try {
 			logger.info("selectCountTotal...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			
 			if(search == null) {
 				psmt = conn.prepareStatement(Sql.SELECT_COUNT_TOTAL);
@@ -132,7 +148,9 @@ public class ArticleDAO extends DBHelper {
 				total = rs.getInt(1);
 			}
 			
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -144,7 +162,7 @@ public class ArticleDAO extends DBHelper {
 		List<ArticleVO> articles = new ArrayList<>();
 		try {
 			logger.info("selectArticles...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLES);
 			psmt.setString(1, cate);
 			psmt.setInt(2, start);
@@ -167,7 +185,9 @@ public class ArticleDAO extends DBHelper {
 				
 				articles.add(vo);
 			}
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -178,7 +198,7 @@ public class ArticleDAO extends DBHelper {
 		List<ArticleVO> articles = new ArrayList<>();
 		try {
 			logger.info("selectArticlesByKeyword...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLES_BY_KEYWORD);
 			psmt.setString(1, "%"+keyword+"%");
 			psmt.setString(2, "%"+keyword+"%");
@@ -204,7 +224,9 @@ public class ArticleDAO extends DBHelper {
 				
 				articles.add(vo);
 			}
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -215,7 +237,7 @@ public class ArticleDAO extends DBHelper {
 		ArticleVO vo = null;
 		try {
 			logger.info("selectArticle...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLE);
 			psmt.setString(1, no);
 			rs = psmt.executeQuery();
@@ -240,7 +262,9 @@ public class ArticleDAO extends DBHelper {
 				vo.setDownload(rs.getInt(16));
 			}
 			
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -252,7 +276,7 @@ public class ArticleDAO extends DBHelper {
 		
 		try {
 			logger.info("selectComments...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_COMMENTS);
 			psmt.setString(1, parent);
 			rs = psmt.executeQuery();
@@ -274,7 +298,9 @@ public class ArticleDAO extends DBHelper {
 				
 				comments.add(comment);
 			}
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -285,7 +311,7 @@ public class ArticleDAO extends DBHelper {
 		List<ArticleVO> latests = new ArrayList<>();
 		try {
 			logger.info("selectLatests...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_LATESTS);
 			psmt.setString(1, cate1);
 			psmt.setString(2, cate2);
@@ -300,7 +326,9 @@ public class ArticleDAO extends DBHelper {
 				
 				latests.add(vo);
 			}
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -311,7 +339,7 @@ public class ArticleDAO extends DBHelper {
 		List<ArticleVO> latests = new ArrayList<>();
 		try {
 			logger.info("selectLatests(String)...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_LATEST);
 			psmt.setString(1, tabsCate);
 			rs = psmt.executeQuery();
@@ -324,7 +352,9 @@ public class ArticleDAO extends DBHelper {
 				
 				latests.add(vo);
 			}
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -334,14 +364,15 @@ public class ArticleDAO extends DBHelper {
 	public void updateArticle(String title, String content, String no) {
 		try {
 			logger.info("updateArticle...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.UPDATE_ARTICLE);
 			psmt.setString(1, title);
 			psmt.setString(2, content);
 			psmt.setString(3, no);
 			psmt.executeUpdate();
 
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -350,12 +381,13 @@ public class ArticleDAO extends DBHelper {
 	public void updateArticleHit(String no) {
 		try {
 			logger.info("updateArticleHit...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.UPDATE_ARTICLE_HIT);
 			psmt.setString(1, no);
 			psmt.executeUpdate();
 			
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -365,13 +397,14 @@ public class ArticleDAO extends DBHelper {
 		int result = 0;
 		try {
 			logger.info("updateComment...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.UPDATE_COMMENT);
 			psmt.setString(1, content);
 			psmt.setString(2, no);
 			result = psmt.executeUpdate();
 			
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -381,13 +414,14 @@ public class ArticleDAO extends DBHelper {
 	public void deleteArticle(String no) {
 		try {
 			logger.info("deleteArticle...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.DELETE_ARTICLE);
 			psmt.setString(1, no);
 			psmt.setString(2, no);
 			psmt.executeUpdate();
 			
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -396,12 +430,13 @@ public class ArticleDAO extends DBHelper {
 	public void deleteFile(String no) {
 		try {
 			logger.info("deleteFile...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.DELETE_FILE);
 			psmt.setString(1, no);
 			psmt.executeUpdate();
 			
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -411,7 +446,7 @@ public class ArticleDAO extends DBHelper {
 		int result = 0;
 		try {
 			logger.info("deleteComment...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			conn.setAutoCommit(false);
 			
 			psmt1 = conn.prepareStatement(Sql.DELETE_COMMENT);
@@ -423,7 +458,9 @@ public class ArticleDAO extends DBHelper {
 			
 			conn.commit();
 			
-			close();
+			conn.close();
+			psmt1.close();
+			psmt2.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}

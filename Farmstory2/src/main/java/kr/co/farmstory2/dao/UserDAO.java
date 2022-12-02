@@ -1,25 +1,36 @@
 package kr.co.farmstory2.dao;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import kr.co.farmstory2.db.DBHelper;
+import kr.co.farmstory2.db.DBCP;
 import kr.co.farmstory2.db.Sql;
 import kr.co.farmstory2.vo.TermsVO;
 import kr.co.farmstory2.vo.UserVO;
 
-public class UserDAO extends DBHelper {
-	
-	
+public class UserDAO {
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	Connection conn = null;
+	PreparedStatement psmt = null;
+	PreparedStatement psmt1 = null;
+	PreparedStatement psmt2 = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+	
 	
 	public int insertUser(UserVO vo) {
 		int result = 0;
 		try{
 			logger.info("insertUser...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			
 			psmt = conn.prepareStatement(Sql.INSERT_USER);
 			psmt.setString(1, vo.getUid());
@@ -35,8 +46,8 @@ public class UserDAO extends DBHelper {
 			
 			result = psmt.executeUpdate();
 			
-			close();
-			
+			conn.close();
+			psmt.close();
 		}catch(Exception e){
 			logger.error(e.getMessage());
 		}
@@ -47,7 +58,7 @@ public class UserDAO extends DBHelper {
 		UserVO vo = null;
 		try {
 			logger.info("selectUser...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_USER);
 			psmt.setString(1, uid);
 			psmt.setString(2, pass);
@@ -69,7 +80,9 @@ public class UserDAO extends DBHelper {
 				vo.setRdate(rs.getString(12));
 			}
 			
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -80,7 +93,7 @@ public class UserDAO extends DBHelper {
 		UserVO vo = null;
 		try {
 			logger.info("selectUserForFindId...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_UESR_FOR_FIND_ID);
 			psmt.setString(1, name);
 			psmt.setString(2, email);
@@ -94,7 +107,9 @@ public class UserDAO extends DBHelper {
 				vo.setRdate(rs.getString(12));
 			}
 			
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -105,7 +120,7 @@ public class UserDAO extends DBHelper {
 		UserVO vo = null;
 		try {
 			logger.info("selectUserForFindPw...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_UESR_FOR_FIND_PW);
 			psmt.setString(1, uid);
 			psmt.setString(2, email);
@@ -116,7 +131,9 @@ public class UserDAO extends DBHelper {
 				vo.setUid(rs.getString(1));
 			}
 			
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -128,7 +145,7 @@ public class UserDAO extends DBHelper {
 		try {
 			logger.info("selecUserBySessId...");
 			
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_USER_BY_SESSID);
 			psmt.setString(1, sessId);
 			rs = psmt.executeQuery();
@@ -148,7 +165,9 @@ public class UserDAO extends DBHelper {
 				vo.setRegip(rs.getString(11));
 				vo.setRdate(rs.getString(12));
 			}
-			close();
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -160,7 +179,7 @@ public class UserDAO extends DBHelper {
 		
 		try{
 			logger.info("selectCountUid...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_COUNT_UID);
 			psmt.setString(1, uid);
 			
@@ -170,8 +189,9 @@ public class UserDAO extends DBHelper {
 				result = rs.getInt(1);
 			}
 			
-			close();
-			
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch(Exception e){
 			logger.error(e.getMessage());
 		}
@@ -183,7 +203,7 @@ public class UserDAO extends DBHelper {
 		
 		try{
 			logger.info("selectCountNick...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_COUNT_NICK);
 			psmt.setString(1, nick);
 			
@@ -193,8 +213,9 @@ public class UserDAO extends DBHelper {
 				result = rs.getInt(1);
 			}
 			
-			close();
-			
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch(Exception e){
 			logger.error(e.getMessage());
 		}
@@ -206,7 +227,7 @@ public class UserDAO extends DBHelper {
 		
 		try{
 			logger.info("selectCountEmail...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_COUNT_EMAIL);
 			psmt.setString(1, email);
 			
@@ -216,8 +237,9 @@ public class UserDAO extends DBHelper {
 				result = rs.getInt(1);
 			}
 			
-			close();
-			
+			conn.close();
+			psmt.close();
+			rs.close();
 		}catch(Exception e){
 			logger.error(e.getMessage());
 		}
@@ -228,7 +250,7 @@ public class UserDAO extends DBHelper {
 		TermsVO vo = null;
 		try {
 			logger.info("selectTerms...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(Sql.SELECT_TERMS);
 			if(rs.next()) {
@@ -236,7 +258,10 @@ public class UserDAO extends DBHelper {
 				vo.setTerms(rs.getString(1));
 				vo.setPrivacy(rs.getString(2));
 			}
-			close();
+			
+			conn.close();
+			stmt.close();
+			rs.close();
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -246,11 +271,42 @@ public class UserDAO extends DBHelper {
 	public void updateUser(UserVO vo) {
 		try {
 			logger.info("updateUser...");
-			conn = getConnection();
-			if(vo.setPass == null)) {
+			conn = DBCP.getConnection();
+			conn.setAutoCommit(false);
 			
+			if(vo.getPass() == "") {
+				psmt = conn.prepareStatement(Sql.UPDATE_USER);
+				psmt.setString(1, vo.getName());
+				psmt.setString(2, vo.getNick());
+				psmt.setString(3, vo.getEmail());
+				psmt.setString(4, vo.getHp());
+				psmt.setString(5, vo.getZip());
+				psmt.setString(6, vo.getAddr1());
+				psmt.setString(7, vo.getAddr2());
+				psmt.setString(8, vo.getUid());
+				psmt.executeUpdate();
+			}else {
+				psmt1 = conn.prepareStatement(Sql.UPDATE_USER);
+				psmt2 = conn.prepareStatement(Sql.UPDATE_USER_PASSWORD);
+				psmt1.setString(1, vo.getName());
+				psmt1.setString(2, vo.getNick());
+				psmt1.setString(3, vo.getEmail());
+				psmt1.setString(4, vo.getHp());
+				psmt1.setString(5, vo.getZip());
+				psmt1.setString(6, vo.getAddr1());
+				psmt1.setString(7, vo.getAddr2());
+				psmt1.setString(8, vo.getUid());
+				psmt2.setString(1, vo.getPass());
+				psmt2.setString(2, vo.getUid());
+				psmt1.executeUpdate();
+				psmt2.executeUpdate();
 			}
-			psmt = conn.prepareStatement(Sql.UPDATE_USER);
+			conn.commit();
+			
+			conn.close();
+			psmt.close();
+			psmt1.close();
+			psmt2.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -261,12 +317,14 @@ public class UserDAO extends DBHelper {
 		
 		try {
 			logger.info("updateUserPassword...");
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.UPDATE_USER_PASSWORD);
 			psmt.setString(1, pass);
 			psmt.setString(2, uid);
 			result = psmt.executeUpdate();
-			close();
+			
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -277,13 +335,14 @@ public class UserDAO extends DBHelper {
 		try {
 			logger.info("updateUserForSession...");
 			
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.UPDATE_USER_FOR_SESSION);
 			psmt.setString(1, sessId);
 			psmt.setString(2, uid);
 			psmt.executeUpdate();
 			
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -293,12 +352,13 @@ public class UserDAO extends DBHelper {
 		try {
 			logger.info("updateUserForSessLimitDate...");
 			
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.UPDATE_USER_FOR_SESS_LIMIT_DATE);
 			psmt.setString(1, sessId);
 			psmt.executeUpdate();
 			
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -308,15 +368,40 @@ public class UserDAO extends DBHelper {
 		try {
 			logger.info("updateUserForSessionOut...");
 			
-			conn = getConnection();
+			conn = DBCP.getConnection();
 			psmt = conn.prepareStatement(Sql.UPDATE_USER_FOR_SESSION_OUT);
 			psmt.setString(1, uid);
 			psmt.executeUpdate();
 			
-			close();
+			conn.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
+	}
+	
+	public void deleteUser(String uid) {
+		try {
+			logger.info("deleteUser...");
+			conn = DBCP.getConnection();
+			conn.setAutoCommit(false);
+			
+			psmt1 = conn.prepareStatement(Sql.DELETE_ARTICLE_FOR_USER);
+			psmt2 = conn.prepareStatement(Sql.DELETE_USER);
+			psmt1.setString(1, uid);
+			psmt2.setString(1, uid);
+			psmt1.executeUpdate();
+			psmt2.executeUpdate();
+			
+			conn.commit();
+			
+			conn.close();
+			psmt1.close();
+			psmt2.close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
 	}
 	
 }

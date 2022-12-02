@@ -5,9 +5,11 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.farmstory2.service.UserService;
 import kr.co.farmstory2.vo.UserVO;
@@ -53,6 +55,24 @@ public class ModifyController extends HttpServlet {
 		vo.setAddr2(addr2);
 		
 		service.updateUser(vo);
+		
+		HttpSession sess = req.getSession();
+		UserVO sessUser = (UserVO) sess.getAttribute("sessUser");
+		uid = sessUser.getUid();
+		// 세션 헤제
+		sess.removeAttribute("sessUser");
+		sess.invalidate();
+		
+		// 쿠키 삭제
+		Cookie cookie = new Cookie("SESSID", null);
+		cookie.setPath("/");
+		cookie.setMaxAge(0);
+		resp.addCookie(cookie);
+		
+		// 데이터 베이스 사용자 sessId update
+		service.updateUserForSessionOut(uid);
+		
+		resp.sendRedirect("/Farmstory2/user/login.do?success=201");
 		
 	}
 }

@@ -28,7 +28,7 @@
 	                    </table>
 	
 	                    <div>
-	                        <a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}" class="btn btnCancel">취소</a>
+	                        <a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&search=" class="btn btnCancel">취소</a>
 	                        <input type="submit" value="작성완료" class="btn btnComplete">
                     	</div>
                 	</form>

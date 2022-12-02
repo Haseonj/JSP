@@ -84,7 +84,9 @@ public enum UserService {
 	}
 	
 	
-	public void deleteUser() {}
+	public void deleteUser(String uid) {
+		dao.deleteUser(uid);
+	}
 	
 	public int[] sendEmailCode(String receiver) {
 		

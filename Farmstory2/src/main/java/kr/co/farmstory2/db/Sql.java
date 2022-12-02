@@ -32,6 +32,16 @@ public class Sql {
 	
 	public static final String SELECT_USER_BY_SESSID = "SELECT * FROM `board_user` WHERE `sessId`=? AND `sessLimitDate` > NOW()";
 	
+	public static final String UPDATE_USER = "update `board_user` set "
+											+ "`name`=?, "
+											+ "`nick`=?, "
+											+ "`email`=?, "
+											+ "`hp`=?, "
+											+ "`zip`=?, "
+											+ "`addr1`=?, "
+											+ "`addr2`=? "
+											+ "where `uid`=?";
+	
 	public static final String UPDATE_USER_PASSWORD = "update `board_user` set `pass`=SHA2(?, 256) where `uid`=?";
 	
 	public static final String UPDATE_USER_FOR_SESSION = "UPDATE `board_user` SET `sessId`=?, `sessLimitDate` = DATE_ADD(NOW(), INTERVAL 3 DAY) WHERE `uid`=?";
@@ -39,6 +49,12 @@ public class Sql {
 	public static final String UPDATE_USER_FOR_SESS_LIMIT_DATE = "UPDATE `board_user` SET `sessLimitDate` = DATE_ADD(NOW(), INTERVAL 3 DAY) WHERE `sessId`=?";
 	
 	public static final String UPDATE_USER_FOR_SESSION_OUT = "UPDATE `board_user` SET `sessId`=NULL, `sessLimitDate`=NULL WHERE `uid`=?";
+	
+	public static final String DELETE_ARTICLE_FOR_USER = "DELETE a, b FROM `board_article` AS a "
+														+ "LEFT JOIN `board_file` AS b ON a.no = b.parent "
+														+ "WHERE `uid`= ?";
+	
+	public static final String DELETE_USER = "DELETE FROM `board_user` WHERE `uid`= ?";
 	
 	// board
 	public static final String INSERT_ARTICLE = "INSERT INTO `board_article` SET "

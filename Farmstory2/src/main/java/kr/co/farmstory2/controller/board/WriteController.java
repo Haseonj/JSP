@@ -75,7 +75,7 @@ public class WriteController extends HttpServlet{
 			service.insertFile(parent, newName, fname);
 		}
 		
-		resp.sendRedirect("/Farmstory2/board/list.do?group="+group+"&cate="+cate);
+		resp.sendRedirect("/Farmstory2/board/list.do?group="+group+"&cate="+cate+"&search=");
 	}
 
 }

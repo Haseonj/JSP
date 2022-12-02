@@ -157,6 +157,8 @@ $(function(){
 					$('#btnCheckEmail').hide();
 					$('#btnEmail').show();
 					isEmailOk = true;
+					isEmailAuthOk = false;
+					isEmailAuthCodeOk = false;
 				}else{
 					alert('이미 사용중인 이메일 입니다.');
 					isEmailOk = false;
@@ -241,6 +243,31 @@ $(function(){
 			isHpOk = false;
 			$('.hpResult').css('color','red').text('유효하지 않은 휴대폰입니다.');
 		}
+		
+	});
+	
+	// 회원탈퇴
+	$('.btnDelete').click(function(){
+		
+		let isDeleteOk = confirm('탈퇴 시, 회원님의 모든 게시글 및 댓글이 삭제됩니다.\n정말 탈퇴 하시겠습니까?');
+		
+		if(isDeleteOk){
+			let uid = $('input[name=uid]').val();
+			
+			$.ajax({
+				url: '/Farmstory2/user/delete.do',
+				method: 'get',
+				data: {"uid": uid},
+				dataType: 'json',
+				success: function(data){
+					if(data.result == 1){
+						$(location).attr('href', '/Farmstory2/user/login.do?success=300');
+					}
+				}
+			});	
+		}
+		
+		
 		
 	});
 	

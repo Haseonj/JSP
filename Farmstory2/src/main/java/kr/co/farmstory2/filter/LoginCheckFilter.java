@@ -34,6 +34,8 @@ public class LoginCheckFilter implements Filter {
 		uriList.add("/Farmstory2/board/write.do");
 		uriList.add("/Farmstory2/board/modify.do");
 		uriList.add("/Farmstory2/board/view.do");
+		uriList.add("/Farmstory2/user/checkPw.do");
+		uriList.add("/Farmstory2/user/modify.do");
 	}
 	
 	@Override
@@ -49,14 +51,14 @@ public class LoginCheckFilter implements Filter {
 		if(uriList.contains(uri)) {
 			// 로그인을 하지 않았을 경우
 			if(sessUser == null) {
-				((HttpServletResponse) response).sendRedirect("/Farmstory2/user/login.do");
+				((HttpServletResponse) response).sendRedirect("/Farmstory2/user/login.do?success=101");
 				return;
 			}
 			
 		}else if(uri.contains("/user/login.do")) {
 			// 로그인을 했을 경우
 			if(sessUser != null) {
-				((HttpServletResponse) response).sendRedirect("/Farmstory2/board/list.do");
+				((HttpServletResponse) response).sendRedirect("/Farmstory2/");
 				return;
 			}
 		}
