@@ -3,6 +3,13 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/Farmstory2/js/userModify.js"></script>
 <script src="/Farmstory2/js/zipcode.js"></script>
+<script>
+	let pass = "${pass}";
+	
+	if(pass == ""){
+		$(location).attr('href', '/Farmstory2/user/checkPw.do?success=101');
+	}
+</script>
 <main id="user">
     <section class="modify">
         <form action="/Farmstory2/user/modify.do" method="post">

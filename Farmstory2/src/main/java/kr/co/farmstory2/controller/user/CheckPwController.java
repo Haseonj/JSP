@@ -46,7 +46,7 @@ public class CheckPwController extends HttpServlet {
 		
 		if(vo != null) {
 			// 회원정보가 일치 할 때
-			resp.sendRedirect("/Farmstory2/user/modify.do");
+			resp.sendRedirect("/Farmstory2/user/modify.do?pass="+vo.getPass());
 		}else {
 			req.setAttribute("success", success);
 			resp.sendRedirect("/Farmstory2/user/checkPw.do?success=100");

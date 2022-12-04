@@ -6,6 +6,8 @@
 	
 	if(success == "100"){
 		alert('비밀번호가 일치하지 않습니다.');	
+	}else if(success == "101"){
+		alert('비밀번호를 입력 해 주십시오.');
 	}
 </script>
 <main id="user">

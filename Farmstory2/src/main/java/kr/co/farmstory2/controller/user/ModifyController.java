@@ -26,6 +26,10 @@ public class ModifyController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String pass = req.getParameter("pass");
+		
+		req.setAttribute("pass", pass);
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/modify.jsp");
 		dispatcher.forward(req, resp);
 	}
