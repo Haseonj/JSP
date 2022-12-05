@@ -20,6 +20,9 @@ public class Sql {
 	
 	public static final String SELECT_USER = "SELECT * FROM `board_user` WHERE `uid`=? AND `pass`=SHA2(?, 256)";
 	
+	// db에 아이디, 비밀번호가 일치하는지 확인하는 쿼리문
+	public static final String SELECT_USER_BY_INFO = "SELECT count('uid') FROM `board_user` WHERE `uid`=? AND `pass`=SHA2(?, 256)";
+	
 	public static final String SELECT_COUNT_UID = "SELECT COUNT(`uid`) FROM `board_user` WHERE `uid`=?";
 	
 	public static final String SELECT_COUNT_NICK = "SELECT COUNT(`nick`) FROM `board_user` WHERE `nick`=?";
@@ -54,7 +57,10 @@ public class Sql {
 														+ "LEFT JOIN `board_file` AS b ON a.no = b.parent "
 														+ "WHERE `uid`= ?";
 	
-	public static final String DELETE_USER = "DELETE FROM `board_user` WHERE `uid`= ?";
+	public static final String DELETE_USER = "UPDATE `board_user` SET "
+											+ "`grade`= 0, "
+											+ "`wdate`= NOW() "
+											+ "WHERE `uid`= ?";
 	
 	// board
 	public static final String INSERT_ARTICLE = "INSERT INTO `board_article` SET "

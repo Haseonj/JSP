@@ -38,6 +38,10 @@ public enum UserService {
 		return dao.selectUser(uid, pass);
 	}
 	
+	public int selectUserByInfo(String uid, String pass) {
+		return dao.selectUserByInfo(uid, pass);
+	}
+	
 	public UserVO selectUserForFindId(String name, String email) {
 		return dao.selectUserForFindId(name, email);
 	}

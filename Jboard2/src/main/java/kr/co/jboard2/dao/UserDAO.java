@@ -76,6 +76,30 @@ public class UserDAO extends DBHelper {
 		return vo;
 	}
 	
+	public int selectUserByInfo(String uid, String pass) {
+		int result = 0;
+		try {
+			logger.info("selectUserByInfo...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_USER_BY_INFO);
+			psmt.setString(1, uid);
+			psmt.setString(2, pass);
+			rs = psmt.executeQuery();
+			
+			// 카운트 커리문을 이용하여 1이 나오면 일치, 0이 나오면 비일치
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			conn.close();
+			psmt.close();
+			rs.close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
 	public UserVO selectUserForFindId (String name, String email) {
 		UserVO vo = null;
 		try {
@@ -201,6 +225,30 @@ public class UserDAO extends DBHelper {
 		return result;
 	}
 	
+	public int selectCountEmail(String email) {
+		int result = 0;
+		
+		try{
+			logger.info("selectCountEmail...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_COUNT_EMAIL);
+			psmt.setString(1, email);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt(1);
+			}
+			
+			conn.close();
+			psmt.close();
+			rs.close();
+		}catch(Exception e){
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
 	public TermsVO selectTerms() {
 		TermsVO vo = null;
 		try {
@@ -218,6 +266,52 @@ public class UserDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 		return vo;
+	}
+	
+	public void updateUser(UserVO vo) {
+		try {
+			logger.info("updateUser...");
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			if(vo.getPass() == null) {
+				// 비밀번호를 변경하지 않을 때
+				psmt = conn.prepareStatement(Sql.UPDATE_USER);
+				psmt.setString(1, vo.getName());
+				psmt.setString(2, vo.getNick());
+				psmt.setString(3, vo.getEmail());
+				psmt.setString(4, vo.getHp());
+				psmt.setString(5, vo.getZip());
+				psmt.setString(6, vo.getAddr1());
+				psmt.setString(7, vo.getAddr2());
+				psmt.setString(8, vo.getUid());
+				psmt.executeUpdate();
+			}else {
+				// 비밀번호를 변경 할 때
+				psmt1 = conn.prepareStatement(Sql.UPDATE_USER);
+				psmt2 = conn.prepareStatement(Sql.UPDATE_USER_PASSWORD);
+				psmt1.setString(1, vo.getName());
+				psmt1.setString(2, vo.getNick());
+				psmt1.setString(3, vo.getEmail());
+				psmt1.setString(4, vo.getHp());
+				psmt1.setString(5, vo.getZip());
+				psmt1.setString(6, vo.getAddr1());
+				psmt1.setString(7, vo.getAddr2());
+				psmt1.setString(8, vo.getUid());
+				psmt2.setString(1, vo.getPass());
+				psmt2.setString(2, vo.getUid());
+				psmt1.executeUpdate();
+				psmt2.executeUpdate();
+			}
+			conn.commit();
+			
+			conn.close();
+			psmt.close();
+			psmt1.close();
+			psmt2.close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
 	}
 	
 	public int updateUserPassword(String pass, String uid) {
@@ -281,6 +375,26 @@ public class UserDAO extends DBHelper {
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
+	}
+	
+	public void deleteUser(String uid) {
+		try {
+			logger.info("deleteUser...");
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			psmt = conn.prepareStatement(Sql.DELETE_USER);
+			psmt.setString(1, uid);
+			psmt.executeUpdate();
+			
+			conn.commit();
+			
+			conn.close();
+			psmt.close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
 	}
 	
 }

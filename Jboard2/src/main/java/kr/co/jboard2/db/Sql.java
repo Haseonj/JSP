@@ -23,6 +23,8 @@ public class Sql {
 	public static final String SELECT_COUNT_UID = "SELECT COUNT(`uid`) FROM `board_user` WHERE `uid`=?";
 	
 	public static final String SELECT_COUNT_NICK = "SELECT COUNT(`nick`) FROM `board_user` WHERE `nick`=?";
+
+	public static final String SELECT_COUNT_EMAIL = "SELECT COUNT(`email`) FROM `board_user` WHERE `email`=?";
 	
 	public static final String SELECT_UESR_FOR_FIND_ID = "select * from `board_user` where `name`=? and `email`=?";
 	
@@ -37,6 +39,8 @@ public class Sql {
 	public static final String UPDATE_USER_FOR_SESS_LIMIT_DATE = "UPDATE `board_user` SET `sessLimitDate` = DATE_ADD(NOW(), INTERVAL 3 DAY) WHERE `sessId`=?";
 	
 	public static final String UPDATE_USER_FOR_SESSION_OUT = "UPDATE `board_user` SET `sessId`=NULL, `sessLimitDate`=NULL WHERE `uid`=?";
+	
+	public static final String SELECT_USER_BY_INFO = "SELECT count('uid') FROM `board_user` WHERE `uid`=? AND `pass`=SHA2(?, 256)";
 	
 	// board
 	public static final String INSERT_ARTICLE = "INSERT INTO `board_article` SET "
@@ -105,6 +109,16 @@ public class Sql {
 													+ "JOIN `board_user` AS b USING (`uid`) "
 													+ "WHERE `parent`!=0 ORDER BY `no` DESC LIMIT 1";
 	
+	public static final String UPDATE_USER = "update `board_user` set "
+											+ "`name`=?, "
+											+ "`nick`=?, "
+											+ "`email`=?, "
+											+ "`hp`=?, "
+											+ "`zip`=?, "
+											+ "`addr1`=?, "
+											+ "`addr2`=? "
+											+ "where `uid`=?";
+	
 	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `rdate`=NOW() WHERE `no`=?";
 	
 	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit` = `hit` + 1 WHERE `no`=?";
@@ -125,4 +139,9 @@ public class Sql {
 	public static final String DELETE_COMMENT = "DELETE FROM `board_article` WHERE `no`=?";
 	
 	public static final String DELETE_FILE = "DELETE FROM `board_file` WHERE `parent`=?";
+	
+	public static final String DELETE_USER = "UPDATE `board_user` SET "
+											+ "`grade`= 0, "
+											+ "`wdate`= NOW() "
+											+ "WHERE `uid`= ?";
 }

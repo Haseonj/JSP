@@ -12,6 +12,8 @@ public class DBHelper {
 	
 	protected Connection conn = null;
 	protected PreparedStatement psmt = null;
+	protected PreparedStatement psmt1 = null;
+	protected PreparedStatement psmt2 = null;
 	protected Statement stmt = null;
 	protected ResultSet rs = null;
 	

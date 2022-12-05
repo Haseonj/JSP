@@ -89,6 +89,31 @@ public class UserDAO {
 		return vo;
 	}
 	
+	public int selectUserByInfo(String uid, String pass) {
+		int result = 0;
+		try {
+			logger.info("selectUserByInfo...");
+			conn = DBCP.getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_USER_BY_INFO);
+			psmt.setString(1, uid);
+			psmt.setString(2, pass);
+			rs = psmt.executeQuery();
+			
+			// 카운트 커리문을 이용하여 1이 나오면 일치, 0이 나오면 비일치
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			conn.close();
+			psmt.close();
+			rs.close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
+	
 	public UserVO selectUserForFindId (String name, String email) {
 		UserVO vo = null;
 		try {
@@ -274,7 +299,7 @@ public class UserDAO {
 			conn = DBCP.getConnection();
 			conn.setAutoCommit(false);
 			
-			if(vo.getPass() == "") {
+			if(vo.getPass() == null) {
 				psmt = conn.prepareStatement(Sql.UPDATE_USER);
 				psmt.setString(1, vo.getName());
 				psmt.setString(2, vo.getNick());
@@ -386,18 +411,14 @@ public class UserDAO {
 			conn = DBCP.getConnection();
 			conn.setAutoCommit(false);
 			
-			psmt1 = conn.prepareStatement(Sql.DELETE_ARTICLE_FOR_USER);
-			psmt2 = conn.prepareStatement(Sql.DELETE_USER);
-			psmt1.setString(1, uid);
-			psmt2.setString(1, uid);
-			psmt1.executeUpdate();
-			psmt2.executeUpdate();
+			psmt = conn.prepareStatement(Sql.DELETE_USER);
+			psmt.setString(1, uid);
+			psmt.executeUpdate();
 			
 			conn.commit();
 			
 			conn.close();
-			psmt1.close();
-			psmt2.close();
+			psmt.close();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
